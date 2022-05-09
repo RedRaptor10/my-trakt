@@ -1,5 +1,6 @@
 import { useRef } from 'react';
 import { isAlphaNumeric } from '../helpers/isAlphaNumeric';
+import { sortResults } from '../helpers/sort';
 
 const Search = ({input, setInput, collection, setResults, type}) => {
     let timer = useRef(); // useRef keeps timer after re-render
@@ -23,7 +24,7 @@ const Search = ({input, setInput, collection, setResults, type}) => {
 
         // Set timer for 1 second before searching
         timer.current = setTimeout(() => {
-            const searchResults = collection[type].filter(item => {
+            let searchResults = collection[type].filter(item => {
                 const query = event.target.value.toLowerCase();
 
                 let title;
@@ -36,6 +37,8 @@ const Search = ({input, setInput, collection, setResults, type}) => {
                 return title.includes(query);
             });
 
+            // Sort results by title
+            sortResults(searchResults, type);
             setResults(searchResults);
         }, delay);
     };
