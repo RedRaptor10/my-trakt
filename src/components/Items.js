@@ -29,10 +29,13 @@ const Items = ({loading, setLoading, collection, setCollection, lists, setLists,
     if (searchInput && input !== '') { searchInput.focus() }
   }, [input, posters]);
 
-  // Add toggles to header links on mount
+  // Add active class and toggles to header links on mount
   useEffect(() => {
     const headerMovies = document.querySelector('.header-nav-movies');
     const headerShows = document.querySelector('.header-nav-shows');
+
+    if (type === 'movies') { headerMovies.classList.add('header-active') }
+    else if (type === 'shows') { headerShows.classList.add('header-active') }
 
     const toggleType = t => {
       if (collection && collection.hasOwnProperty(t)) {
@@ -47,8 +50,10 @@ const Items = ({loading, setLoading, collection, setCollection, lists, setLists,
     headerMovies.onclick = () => { toggleType('movies') };
     headerShows.onclick = () => { toggleType('shows') };
 
-    // Remove onclick on unmount
+    // Remove active class and onclick on unmount
     return () => {
+      headerMovies.classList.remove('header-active');
+      headerShows.classList.remove('header-active');
       headerMovies.onclick = '';
       headerShows.onclick = '';
     };
