@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import { HashRouter, Routes, Route } from 'react-router-dom';
+import Header from './Header';
 import Home from './Home';
 import Items from './Items';
 
@@ -104,6 +105,7 @@ const App = () => {
 
     return (
         <HashRouter>
+            <Header />
             <Routes>
                 <Route exact path="/" element={<Home loading={loading} setLoading={setLoading} fetchList={fetchList} fetchPosters={fetchPosters} />} />
                 <Route exact path="/:path" element={<Items loading={loading} setLoading={setLoading} collection={collection} setCollection={setCollection}

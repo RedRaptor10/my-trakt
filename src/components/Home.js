@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import Header from './Header';
 
 const Home = ({loading, setLoading, fetchList, fetchPosters}) => {
     const [lists, setLists] = useState();
@@ -54,7 +53,6 @@ const Home = ({loading, setLoading, fetchList, fetchPosters}) => {
 
     return (
         <div>
-            <Header />
             {loading ?
             <div className="spinner-container">
                 <div className="loading-spinner"></div>
