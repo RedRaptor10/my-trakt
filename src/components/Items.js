@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import Search from './Search';
 import Pagination from './Pagination';
 import { sortResults } from '../helpers/sort';
+import logo from '../assets/trakt-icon-red.svg';
 
 const Items = ({loading, setLoading, collection, setCollection, lists, setLists, fetchCollection, fetchList, fetchPosters}) => {
   const { path } = useParams();
@@ -57,7 +58,7 @@ const Items = ({loading, setLoading, collection, setCollection, lists, setLists,
       headerMovies.onclick = '';
       headerShows.onclick = '';
     };
-  }, [collection]);
+  }, [collection, type]);
 
   useEffect(() => {
     // Reset display items and posters
@@ -111,7 +112,7 @@ const Items = ({loading, setLoading, collection, setCollection, lists, setLists,
     }
     // If there is a collection or list but there are no results, set results again (ie. revisiting a page after already fetching data)
     else if (!results) {
-      const r = listId ? lists[listId] : collection[type];
+      const r = listId ? lists[listId].slice() : collection[type]; // Copy list array to prevent modification after sort
 
       sortResults(r, type);
       setResults(r);
@@ -119,13 +120,18 @@ const Items = ({loading, setLoading, collection, setCollection, lists, setLists,
     // Set display items and fetch posters
     else {
       const fetchData = async () => {
-        // Set display items to limit
-        const i = results.slice(limit * (page - 1), limit * page);
-        setItems(i);
+        try {
+          // Set display items to limit
+          const i = results.slice(limit * (page - 1), limit * page);
+          setItems(i);
 
-        const p = await fetchPosters(i, type);
-        setPosters(p);
-        setLoading(false);
+          const p = await fetchPosters(i, type);
+          setPosters(p);
+          setLoading(false);
+        }
+        catch (error) {
+          console.log(error);
+        }
       };
 
       fetchData();
@@ -162,7 +168,7 @@ const Items = ({loading, setLoading, collection, setCollection, lists, setLists,
                     {posters[i].poster ?
                       <img className="item-poster" src={'https://image.tmdb.org/t/p/w300_and_h450_bestv2' + posters[i].poster} alt={title}></img>
                     :
-                      <img className="item-poster" alt=""></img>}
+                      <img className="item-poster item-poster-empty" src={logo} alt=""></img>}
                   <div className="item-title"><span>{title}</span></div>
                 </a>
               )

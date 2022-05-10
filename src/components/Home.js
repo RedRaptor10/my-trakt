@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import logo from '../assets/trakt-icon-red.svg';
 
-const Home = ({loading, setLoading, fetchList, fetchPosters}) => {
-    const [lists, setLists] = useState();
+const Home = ({loading, setLoading, lists, setLists, fetchList, fetchPosters}) => {
     const [items, setItems] = useState();
     const [posters, setPosters] = useState();
     const limit = 5;
@@ -10,6 +10,10 @@ const Home = ({loading, setLoading, fetchList, fetchPosters}) => {
     const favoritesShows = 'favorites-shows';
 
     useEffect(() => {
+        // Reset display items and posters
+        setItems();
+        setPosters();
+
         // Asynchronously fetch lists, set display items, and fetch images
         if (!lists || !lists.hasOwnProperty(favoritesMovies) || !lists.hasOwnProperty(favoritesShows)) {
             const fetchData = async () => {
@@ -18,17 +22,30 @@ const Home = ({loading, setLoading, fetchList, fetchPosters}) => {
                     const shows = await fetchList(favoritesShows);
 
                     const tempLists = {
+                        ...lists,
                         [favoritesMovies]: movies,
                         [favoritesShows]: shows
                     };
 
+                    setLists(tempLists);
+                }
+                catch (error) {
+                    console.log(error);
+                }
+            }
+
+            fetchData();
+        }
+        // Set display items and fetch posters
+        else {
+            const fetchData = async () => {
+                try {
                     // Set display items to limit
                     const tempItems = {
-                        'movies': movies.slice(0, limit),
-                        'shows': shows.slice(0, limit)
+                        'movies': lists[favoritesMovies].slice(0, limit),
+                        'shows': lists[favoritesShows].slice(0, limit)
                     };
 
-                    setLists(tempLists);
                     setItems(tempItems);
 
                     const moviePosters = await fetchPosters(tempItems['movies'], 'movies');
@@ -81,7 +98,7 @@ const Home = ({loading, setLoading, fetchList, fetchPosters}) => {
                                             {posters['movies'][i].poster ?
                                                 <img className="home-item-poster" src={'https://image.tmdb.org/t/p/w300_and_h450_bestv2' + posters['movies'][i].poster} alt={title}></img>
                                             :
-                                                <img className="home-item-poster" alt=""></img>}
+                                                <img className="home-item-poster home-item-poster-empty" src={logo} alt=""></img>}
                                         </a>
                                         <div className="home-item-info">
                                             <div className="home-item-title">{title}</div>
@@ -116,7 +133,7 @@ const Home = ({loading, setLoading, fetchList, fetchPosters}) => {
                                             {posters['shows'][i].poster ?
                                                 <img className="home-item-poster" src={'https://image.tmdb.org/t/p/w300_and_h450_bestv2' + posters['shows'][i].poster} alt={title}></img>
                                             :
-                                                <img className="home-item-poster" alt=""></img>}
+                                                <img className="home-item-poster home-item-poster-empty" src={logo} alt=""></img>}
                                         </a>
                                         <div className="home-item-info">
                                             <div className="home-item-title">{title}</div>

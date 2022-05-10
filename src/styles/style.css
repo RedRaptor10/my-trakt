@@ -1,8 +1,8 @@
 :root {
-    --primaryColor: rgb(64, 16, 16);
-    --highlightColor: rgb(128, 32, 32);
+    --primaryColor: rgb(32, 32, 32);
+    --highlightColor: rgb(48, 48, 48);
     --color: rgb(192, 192, 192);
-    --borderColor: rgb(128, 128, 128);
+    --borderColor: rgb(48, 48, 48);
 }
 
 body {
@@ -122,6 +122,10 @@ a:hover {
     opacity: 0.5;
 }
 
+.home-item-poster-empty {
+    object-fit: contain;
+}
+
 .home-item-info {
     padding: 0 32px;
 }
@@ -181,7 +185,7 @@ a:hover {
 .search-box {
     display: flex;
     align-items: center;
-    background: rgb(32, 32, 32);
+    background: var(--primaryColor);
     width: 25%;
     margin: 0 auto;
     padding: 8px 0 8px 8px;
@@ -266,6 +270,10 @@ a:hover {
 
 .item:hover .item-poster {
     opacity: 0.5;
+}
+
+.item-poster-empty {
+    object-fit: contain;
 }
 
 .item-title {
