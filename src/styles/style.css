@@ -15,18 +15,40 @@ body {
 a {
     color: unset;
     text-decoration: none;
+    transition: 0.2s;
+}
+
+a:hover {
+    color: #fff;
 }
 
 .header {
     display: flex;
     align-items: center;
     background: rgb(8, 8, 8);
+    height: 10vh;
     padding: 8px 32px;
 }
 
 .header-title {
+    z-index: 1;
+}
+
+.header-title a {
+    display: flex;
+    align-items: center;
     font-size: 48px;
     font-weight: bold;
+}
+
+.header-title a:hover {
+    color: unset;
+}
+
+.header-title img {
+    width: auto;
+    height: 64px;
+    margin-right: 16px;
 }
 
 .header-nav-container {

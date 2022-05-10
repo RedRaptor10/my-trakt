@@ -54,14 +54,13 @@ const Home = ({loading, setLoading, fetchList, fetchPosters}) => {
 
     return (
         <div>
+            <Header />
             {loading ?
             <div className="spinner-container">
                 <div className="loading-spinner"></div>
             </div>
             :
-            <div>
-            <Header />
-            {items ?
+            items ?
                 <div>
                     <div className="home-items-container">
                     <div className="home-items">
@@ -136,8 +135,6 @@ const Home = ({loading, setLoading, fetchList, fetchPosters}) => {
                 </div>
             : null}
             </div>
-            }
-        </div>
     );
 }
 
