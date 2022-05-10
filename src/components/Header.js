@@ -12,8 +12,8 @@ const Header = () => {
             </div>
             <div className="header-nav-container">
                 <nav className="header-nav">
-                    <div><Link to="/movies">Movies</Link></div>
-                    <div><Link to="/shows">Shows</Link></div>
+                    <div className="header-nav-movies"><Link to="/movies">Movies</Link></div>
+                    <div className="header-nav-shows"><Link to="/shows">Shows</Link></div>
                 </nav>
             </div>
         </div>

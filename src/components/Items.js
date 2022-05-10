@@ -29,25 +29,30 @@ const Items = ({loading, setLoading, collection, setCollection, lists, setLists,
     if (searchInput && input !== '') { searchInput.focus() }
   }, [input, posters]);
 
-  const toggleType = t => {
-    if (collection && collection.hasOwnProperty(t)) {
-      setResults(collection[t]);
-    }
-    setInput('');
-    setPage(1);
-    setListId();
-    setType(t);
-  };
+  // Add toggles to header links on mount
+  useEffect(() => {
+    const headerMovies = document.querySelector('.header-nav-movies');
+    const headerShows = document.querySelector('.header-nav-shows');
 
-  const toggleList = (l, t) => {
-    if (lists && lists.hasOwnProperty(l)) {
-      setResults(lists[l]);
-    }
-    setInput('');
-    setPage(1);
-    setListId(l);
-    setType(t);
-  };
+    const toggleType = t => {
+      if (collection && collection.hasOwnProperty(t)) {
+        setResults(collection[t]);
+      }
+      setInput('');
+      setPage(1);
+      setListId();
+      setType(t);
+    };
+
+    headerMovies.onclick = () => { toggleType('movies') };
+    headerShows.onclick = () => { toggleType('shows') };
+
+    // Remove onclick on unmount
+    return () => {
+      headerMovies.onclick = '';
+      headerShows.onclick = '';
+    };
+  }, [collection]);
 
   useEffect(() => {
     // Reset display items and posters
@@ -138,11 +143,6 @@ const Items = ({loading, setLoading, collection, setCollection, lists, setLists,
       <div>
         <Search input={input} setInput={setInput} collection={collection} setResults={setResults} type={type} />
         <Pagination results={results} type={type} page={page} setPage={setPage} limit={limit} />
-        <Link to="/">Home</Link>
-        <div><Link to="/shows" onClick={() => { toggleType('shows') }}>Shows</Link></div>
-        <div><Link to="/movies" onClick={() => { toggleType('movies') }}>Movies</Link></div>
-        <div><Link to="/favorites-movies" onClick={() => { toggleList('favorites-movies', 'movies') }}>Favorite Movies</Link></div>
-        <div><Link to="/favorites-shows" onClick={() => { toggleList('favorites-tv-shows', 'shows') }}>Favorite Shows</Link></div>
         <div className="items">
           {items && posters && items.length > 0 ?
             items.map((item, i) => {
