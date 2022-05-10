@@ -3,7 +3,7 @@ import { isAlphaNumeric } from '../helpers/isAlphaNumeric';
 import { sortResults } from '../helpers/sort';
 import searchIcon from '../assets/search-icon.svg';
 
-const Search = ({input, setInput, collection, setResults, type}) => {
+const Search = ({input, setInput, collection, lists, setResults, type, listId}) => {
     let timer = useRef(); // useRef keeps timer after re-render
     const delay = 1000;
 
@@ -25,7 +25,9 @@ const Search = ({input, setInput, collection, setResults, type}) => {
 
         // Set timer for 1 second before searching
         timer.current = setTimeout(() => {
-            let searchResults = collection[type].filter(item => {
+            const items = listId ? lists[listId] : collection[type];
+
+            let searchResults = items.filter(item => {
                 const query = event.target.value.toLowerCase();
 
                 let title;
