@@ -15,7 +15,7 @@ const Items = ({loading, setLoading, collection, setCollection, lists, setLists,
   });
   const [listId, setListId] = useState(() => {
     if (path === 'favorites-movies') { return 'favorites-movies' }
-    else if (path === 'favorites-shows') { return 'favorites-tv-shows' }
+    else if (path === 'favorites-shows') { return 'favorites-shows' }
     return false;
   });
   const [items, setItems] = useState();
@@ -111,11 +111,7 @@ const Items = ({loading, setLoading, collection, setCollection, lists, setLists,
     }
     // If there is a collection or list but there are no results, set results again (ie. revisiting a page after already fetching data)
     else if (!results) {
-      let r;
-      if (path === 'movies') { r = collection['movies']; }
-      else if (path === 'shows') { r = collection['shows']; }
-      else if (path === 'favorites-movies') { r = lists['favorites-movies']; }
-      else if (path === 'favorites-shows') { r = lists['favorites-tv-shows']; }
+      const r = listId ? lists[listId] : collection[type];
 
       sortResults(r, type);
       setResults(r);
