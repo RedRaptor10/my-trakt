@@ -173,6 +173,41 @@ a:hover {
     animation: spinner 1s linear infinite;
 }
 
+/* Search Box */
+.search {
+    padding: 32px 0;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    background: rgb(32, 32, 32);
+    width: 25%;
+    margin: 0 auto;
+    padding: 8px 0 8px 8px;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+.search-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+}
+
+.search-input {
+    background: none;
+    width: 100%;
+    padding: 0;
+    color: var(--color);
+    font-size: 24px;
+    border: 0;
+}
+
+.search-input:focus {
+    outline: none;
+}
+
 /* Pagination */
 .pagination-btns {
     display: flex;

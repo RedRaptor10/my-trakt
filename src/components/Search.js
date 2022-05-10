@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import { isAlphaNumeric } from '../helpers/isAlphaNumeric';
 import { sortResults } from '../helpers/sort';
+import searchIcon from '../assets/search-icon.svg';
 
 const Search = ({input, setInput, collection, setResults, type}) => {
     let timer = useRef(); // useRef keeps timer after re-render
@@ -45,9 +46,10 @@ const Search = ({input, setInput, collection, setResults, type}) => {
     };
 
     return (
-        <div>
-            <form action="">
-                <input id="search-input" type="text" placeholder="Search" value={input} onChange={handleChange} onKeyDown={submitSearch}></input>
+        <div className="search">
+            <form className="search-box" action="">
+                <img className="search-icon" src={searchIcon} alt=""></img>
+                <input id="search-input" className="search-input" type="text" placeholder="Search" value={input} onChange={handleChange} onKeyDown={submitSearch}></input>
             </form>
         </div>
     )
