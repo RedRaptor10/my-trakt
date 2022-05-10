@@ -28,10 +28,11 @@ const Search = ({input, setInput, collection, setResults, type}) => {
                 const query = event.target.value.toLowerCase();
 
                 let title;
-                if (type === 'shows') {
-                    title = item.show.title.toLowerCase();
-                } else if (type === 'movies') {
+                if (type === 'movies') {
                     title = item.movie.title.toLowerCase();
+                }
+                else if (type === 'shows') {
+                    title = item.show.title.toLowerCase();
                 }
 
                 return title.includes(query);

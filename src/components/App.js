@@ -60,8 +60,8 @@ const App = () => {
     
         r.forEach(result => {
             let methodUrl;
-            if (t === 'shows') { methodUrl = '/tv/' + result.show.ids.tmdb }
-            else if (t === 'movies') { methodUrl = '/movie/' + result.movie.ids.tmdb }
+            if (t === 'movies') { methodUrl = '/movie/' + result.movie.ids.tmdb }
+            else if (t === 'shows') { methodUrl = '/tv/' + result.show.ids.tmdb }
 
             // Multiple asynchronous fetches require pushing all Promises into an array
             promises.push(new Promise((resolve, reject) => {

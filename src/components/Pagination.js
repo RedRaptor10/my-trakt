@@ -34,7 +34,7 @@ const Pagination = ({ results, type, page, setPage, limit }) => {
             {page < totalPages ? <div className="pagination-nav-btn" onClick={() => { setPage(totalPages) }}>Last</div> : null}
         </div>
         <div className="pagination-info">
-            <div>Page {page} / {totalPages}, Total: {results.length} {type === 'shows' ? 'Shows' : 'Movies'}</div>
+            <div>Page {page} / {totalPages}, Total: {results.length} {type === 'movies' ? 'Movies' : 'Shows'}</div>
         </div>
     </div>
     )

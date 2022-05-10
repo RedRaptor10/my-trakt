@@ -2,12 +2,13 @@ const sortResults = (results, type) => {
     results.sort((a, b) => {
         let titleA, titleB;
 
-        if (type === 'shows') {
-            titleA = a.show.title.toLowerCase();
-            titleB = b.show.title.toLowerCase();
-        } else if (type === 'movies') {
+        if (type === 'movies') {
             titleA = a.movie.title.toLowerCase();
             titleB = b.movie.title.toLowerCase();
+        }
+        else if (type === 'shows') {
+            titleA = a.show.title.toLowerCase();
+            titleB = b.show.title.toLowerCase();
         }
 
         titleA = removeArticles(titleA);

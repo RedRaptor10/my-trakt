@@ -1,5 +1,5 @@
 :root {
-    --primaryColor: rgb(96, 32, 32);
+    --primaryColor: rgb(64, 16, 16);
     --highlightColor: rgb(128, 32, 32);
     --color: rgb(192, 192, 192);
     --borderColor: rgb(128, 128, 128);
@@ -15,6 +15,34 @@ body {
 a {
     color: unset;
     text-decoration: none;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    background: rgb(8, 8, 8);
+    padding: 8px 32px;
+}
+
+.header-title {
+    font-size: 48px;
+    font-weight: bold;
+}
+
+.header-nav-container {
+    position: absolute;
+    width: calc(100% - 64px);
+}
+
+.header-nav {
+    display: flex;
+    justify-content: center;
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.header-nav div {
+    margin: 0 32px;
 }
 
 /* Loading Spinner */
@@ -76,6 +104,65 @@ a {
     text-align: center;
 }
 
+/* Home Items */
+.home-items-container {
+    display: flex;
+    padding: 0 64px;
+}
+
+.home-items {
+    width: 50%;
+    padding: 0 32px;
+    box-sizing: border-box;
+}
+
+.home-items-header {
+    padding: 16px 0;
+    font-size: 32px;
+    text-align: center;
+}
+
+.home-items-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.home-item-rank {
+    font-size: 64px;
+    padding: 0 32px;
+}
+
+.home-item-poster-container {
+    min-width: 100px;
+    height: 150px;
+}
+
+.home-item-poster {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.home-item {
+    display: flex;
+}
+
+.home-item-info {
+    padding: 0 32px;
+}
+
+.home-item-title {
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.home-item-year {
+    margin-top: 16px;
+    font-size: 24px;
+}
+
+/* Items */
 .items {
     display: flex;
     justify-content: center;

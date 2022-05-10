@@ -9,13 +9,13 @@ const Items = ({loading, setLoading, collection, setCollection, lists, setLists,
   const [input, setInput] = useState('');
   const [results, setResults] = useState();
   const [type, setType] = useState(() => {
-    if (path === 'shows' || path === 'favorites-shows') { return 'shows' }
-    else if (path === 'movies' || path === 'favorites-movies') { return 'movies' }
-    return 'shows';
+    if (path === 'movies' || path === 'favorites-movies') { return 'movies' }
+    else if (path === 'shows' || path === 'favorites-shows') { return 'shows' }
+    return 'movies';
   });
   const [listId, setListId] = useState(() => {
-    if (path === 'favorites-shows') { return 'favorites-tv-shows' }
-    else if (path === 'favorites-movies') { return 'favorites-movies' }
+    if (path === 'favorites-movies') { return 'favorites-movies' }
+    else if (path === 'favorites-shows') { return 'favorites-tv-shows' }
     return false;
   });
   const [items, setItems] = useState();
@@ -50,12 +50,13 @@ const Items = ({loading, setLoading, collection, setCollection, lists, setLists,
   };
 
   useEffect(() => {
+    // Reset display items and posters
     setItems();
     setPosters();
 
     // Fetch collection
     if (!listId &&
-      (!collection || (type === 'shows' && !collection.hasOwnProperty('shows')) || (type === 'movies' && !collection.hasOwnProperty('movies')))) {
+      (!collection || (type === 'movies' && !collection.hasOwnProperty('movies')) || (type === 'shows' && !collection.hasOwnProperty('shows')))) {
       const fetchData = async () => {
         try {
           let c = await fetchCollection(type);
@@ -101,10 +102,10 @@ const Items = ({loading, setLoading, collection, setCollection, lists, setLists,
     // If there is a collection or list but there are no results, set results again (ie. revisiting a page after already fetching data)
     else if (!results) {
       let r;
-      if (path === 'shows') { r = collection['shows']; }
-      else if (path === 'movies') { r = collection['movies']; }
-      else if (path === 'favorites-shows') { r = lists['favorites-tv-shows']; }
+      if (path === 'movies') { r = collection['movies']; }
+      else if (path === 'shows') { r = collection['shows']; }
       else if (path === 'favorites-movies') { r = lists['favorites-movies']; }
+      else if (path === 'favorites-shows') { r = lists['favorites-tv-shows']; }
 
       sortResults(r, type);
       setResults(r);
@@ -124,7 +125,7 @@ const Items = ({loading, setLoading, collection, setCollection, lists, setLists,
       fetchData();
     }
 
-  }, [path, setLoading, collection, lists, results, type, listId, page, fetchCollection, fetchList, fetchPosters]);
+  }, [path, setLoading, collection, setCollection, lists, setLists, results, type, listId, page, fetchCollection, fetchList, fetchPosters]);
 
   return (
     <div>
@@ -140,19 +141,20 @@ const Items = ({loading, setLoading, collection, setCollection, lists, setLists,
         <Link to="/">Home</Link>
         <div><Link to="/shows" onClick={() => { toggleType('shows') }}>Shows</Link></div>
         <div><Link to="/movies" onClick={() => { toggleType('movies') }}>Movies</Link></div>
-        <div><Link to="/favorites-shows" onClick={() => { toggleList('favorites-tv-shows', 'shows') }}>Favorite Shows</Link></div>
         <div><Link to="/favorites-movies" onClick={() => { toggleList('favorites-movies', 'movies') }}>Favorite Movies</Link></div>
+        <div><Link to="/favorites-shows" onClick={() => { toggleList('favorites-tv-shows', 'shows') }}>Favorite Shows</Link></div>
         <div className="items">
           {items && posters && items.length > 0 ?
             items.map((item, i) => {
               let imdb;
               let title;
-              if (type === 'shows' && item.hasOwnProperty('show')) {
-                imdb = item.show.ids.imdb;
-                title = item.show.title;
-              } else if (type === 'movies' && item.hasOwnProperty('movie')) {
+              if (type === 'movies' && item.hasOwnProperty('movie')) {
                 imdb = item.movie.ids.imdb;
                 title = item.movie.title;
+              }
+              else if (type === 'shows' && item.hasOwnProperty('show')) {
+                imdb = item.show.ids.imdb;
+                title = item.show.title;
               }
               return (
                 <a key={i} className="item" href={'https://www.imdb.com/title/' + imdb} target="_blank" rel="noreferrer">
