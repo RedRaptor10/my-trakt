@@ -13,8 +13,10 @@ const api_key = process.env.REACT_APP_API_KEY; // TMDB auth
 
 const App = () => {
     const [loading, setLoading] = useState(false);
+    const [collection, setCollection] = useState();
+    const [lists, setLists] = useState();
 
-    const fetchCollection = useCallback(async () => {
+    const fetchCollection = useCallback(async type => {
         setLoading(true);
   
         //let protocol = '/users/' + trakt_id + '/collection/' + type;
@@ -104,10 +106,8 @@ const App = () => {
         <HashRouter>
             <Routes>
                 <Route exact path="/" element={<Home loading={loading} setLoading={setLoading} fetchList={fetchList} fetchPosters={fetchPosters} />} />
-                <Route exact path="/shows" element={<Items loading={loading} setLoading={setLoading} fetchCollection={fetchCollection} fetchList={fetchList}
-                    fetchPosters={fetchPosters} />} />
-                <Route exact path="/movies" element={<Items loading={loading} setLoading={setLoading} fetchCollection={fetchCollection} fetchList={fetchList}
-                    fetchPosters={fetchPosters} />} />
+                <Route exact path="/:path" element={<Items loading={loading} setLoading={setLoading} collection={collection} setCollection={setCollection}
+                    lists={lists} setLists={setLists} fetchCollection={fetchCollection} fetchList={fetchList} fetchPosters={fetchPosters} />} />
             </Routes>
         </HashRouter>
     );

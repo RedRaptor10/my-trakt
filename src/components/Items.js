@@ -1,15 +1,23 @@
 import { useState, useEffect } from 'react';
+import { useParams, Link } from 'react-router-dom';
 import Search from './Search';
 import Pagination from './Pagination';
 import { sortResults } from '../helpers/sort';
 
-const Items = ({loading, setLoading, fetchCollection, fetchList, fetchPosters}) => {
+const Items = ({loading, setLoading, collection, setCollection, lists, setLists, fetchCollection, fetchList, fetchPosters}) => {
+  const { path } = useParams();
   const [input, setInput] = useState('');
-  const [collection, setCollection] = useState();
-  const [lists, setLists] = useState();
   const [results, setResults] = useState();
-  const [type, setType] = useState('shows');
-  const [listId, setListId] = useState();
+  const [type, setType] = useState(() => {
+    if (path === 'shows' || path === 'favorites-shows') { return 'shows' }
+    else if (path === 'movies' || path === 'favorites-movies') { return 'movies' }
+    return 'shows';
+  });
+  const [listId, setListId] = useState(() => {
+    if (path === 'favorites-shows') { return 'favorites-tv-shows' }
+    else if (path === 'favorites-movies') { return 'favorites-movies' }
+    return false;
+  });
   const [items, setItems] = useState();
   const [posters, setPosters] = useState();
   const [page, setPage] = useState(1);
@@ -22,7 +30,7 @@ const Items = ({loading, setLoading, fetchCollection, fetchList, fetchPosters}) 
   }, [input, posters]);
 
   const toggleType = t => {
-    if (collection.hasOwnProperty(t)) {
+    if (collection && collection.hasOwnProperty(t)) {
       setResults(collection[t]);
     }
     setInput('');
@@ -45,12 +53,12 @@ const Items = ({loading, setLoading, fetchCollection, fetchList, fetchPosters}) 
     setItems();
     setPosters();
 
-    // Asynchronously fetch collection or lists, set display items, and fetch images
+    // Fetch collection
     if (!listId &&
       (!collection || (type === 'shows' && !collection.hasOwnProperty('shows')) || (type === 'movies' && !collection.hasOwnProperty('movies')))) {
       const fetchData = async () => {
         try {
-          let c = await fetchCollection();
+          let c = await fetchCollection(type);
 
           setCollection({
             ...collection,
@@ -67,7 +75,9 @@ const Items = ({loading, setLoading, fetchCollection, fetchList, fetchPosters}) 
       };
 
       fetchData();
-    } else if (listId && (!lists || !lists.hasOwnProperty(listId))) {
+    }
+    // Fetch list
+    else if (listId && (!lists || !lists.hasOwnProperty(listId))) {
       const fetchData = async () => {
         try {
           const l = await fetchList(listId);
@@ -87,7 +97,20 @@ const Items = ({loading, setLoading, fetchCollection, fetchList, fetchPosters}) 
       };
 
       fetchData();
-    } else {
+    }
+    // If there is a collection or list but there are no results, set results again (ie. revisiting a page after already fetching data)
+    else if (!results) {
+      let r;
+      if (path === 'shows') { r = collection['shows']; }
+      else if (path === 'movies') { r = collection['movies']; }
+      else if (path === 'favorites-shows') { r = lists['favorites-tv-shows']; }
+      else if (path === 'favorites-movies') { r = lists['favorites-movies']; }
+
+      sortResults(r, type);
+      setResults(r);
+    }
+    // Set display items and fetch posters
+    else {
       const fetchData = async () => {
         // Set display items to limit
         const i = results.slice(limit * (page - 1), limit * page);
@@ -101,7 +124,7 @@ const Items = ({loading, setLoading, fetchCollection, fetchList, fetchPosters}) 
       fetchData();
     }
 
-  }, [setLoading, collection, lists, results, type, listId, page, fetchCollection, fetchList, fetchPosters]);
+  }, [path, setLoading, collection, lists, results, type, listId, page, fetchCollection, fetchList, fetchPosters]);
 
   return (
     <div>
@@ -114,10 +137,11 @@ const Items = ({loading, setLoading, fetchCollection, fetchList, fetchPosters}) 
       <div>
         <Search input={input} setInput={setInput} collection={collection} setResults={setResults} type={type} />
         <Pagination results={results} type={type} page={page} setPage={setPage} limit={limit} />
-        <div onClick={() => { toggleType('shows') }}>Shows</div>
-        <div onClick={() => { toggleType('movies') }}>Movies</div>
-        <div onClick={() => { toggleList('favorites-tv-shows', 'shows') }}>Favorite Shows</div>
-        <div onClick={() => { toggleList('favorites-movies', 'movies') }}>Favorite Movies</div>
+        <Link to="/">Home</Link>
+        <div><Link to="/shows" onClick={() => { toggleType('shows') }}>Shows</Link></div>
+        <div><Link to="/movies" onClick={() => { toggleType('movies') }}>Movies</Link></div>
+        <div><Link to="/favorites-shows" onClick={() => { toggleList('favorites-tv-shows', 'shows') }}>Favorite Shows</Link></div>
+        <div><Link to="/favorites-movies" onClick={() => { toggleList('favorites-movies', 'movies') }}>Favorite Movies</Link></div>
         <div className="items">
           {items && posters && items.length > 0 ?
             items.map((item, i) => {

@@ -63,6 +63,8 @@ const Home = ({loading, setLoading, fetchList, fetchPosters}) => {
                 <div>
                     <div><Link to="/shows">Shows</Link></div>
                     <div><Link to="/movies">Movies</Link></div>
+                    <div><Link to="/favorites-shows">Favorite Shows</Link></div>
+                    <div><Link to="/favorites-movies">Favorite Movies</Link></div>
                 </div>
                 <div className="items">
                     {items && posters && items['shows'].length > 0 ?
