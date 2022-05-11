@@ -1,6 +1,6 @@
 # My Trakt
 
-My Trakt is a viewer app that uses the Trakt API and TMDB API to display a user's collection. The app includes a couple of features that are not available in Trakt's user interface. My Trakt is not affiliated with Trakt or TMDB and is meant for personal use only.
+My Trakt is a viewer app that uses the Trakt API and TMDB API to display a user's collection. The app includes a couple of features that are not available in Trakt's user interface, such as displaying a user's top 5 items and searching a collection. My Trakt is not affiliated with Trakt or TMDB and is meant for personal use only.
 
 [View Demo](https://redraptor10.github.io/my-trakt/)
 
@@ -21,7 +21,7 @@ My Trakt is a viewer app that uses the Trakt API and TMDB API to display a user'
 - HTML
 - CSS
 
-# TO DO
+# To Do
 - Add caching for data
 - Add support for different users
 - Display item description
