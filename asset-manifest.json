@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/my-trakt/static/css/main.812846bf.css",
+    "main.js": "/my-trakt/static/js/main.c1b01c79.js",
+    "static/media/trakt-icon-red.svg": "/my-trakt/static/media/trakt-icon-red.e24301891b7237d4af92a7e777572423.svg",
+    "index.html": "/my-trakt/index.html",
+    "static/media/search-icon.svg": "/my-trakt/static/media/search-icon.a33f109a6d55d1257394c99a0f0d8f27.svg",
+    "main.812846bf.css.map": "/my-trakt/static/css/main.812846bf.css.map",
+    "main.c1b01c79.js.map": "/my-trakt/static/js/main.c1b01c79.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.812846bf.css",
+    "static/js/main.c1b01c79.js"
+  ]
+}
