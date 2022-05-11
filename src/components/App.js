@@ -12,6 +12,7 @@ const trakt_url = 'https://api.trakt.tv';
 const tmdb_url = 'https://api.themoviedb.org/3';
 const client_id = process.env.REACT_APP_CLIENT_ID; // Trakt auth
 const api_key = process.env.REACT_APP_API_KEY; // TMDB auth
+// JavaScript (CORS) Origins: https://redraptor10.github.io
 
 const App = () => {
     const [loading, setLoading] = useState(false);
