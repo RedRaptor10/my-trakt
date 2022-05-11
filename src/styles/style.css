@@ -23,7 +23,7 @@ a:hover {
 }
 
 /* Header */
-.header {
+header {
     display: flex;
     align-items: center;
     background: #000;
@@ -70,6 +70,24 @@ a:hover {
 
 .header-active {
     color: #fff;
+}
+
+/* Footer */
+footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #000;
+    height: 10vh;
+    padding: 8px 32px;
+}
+
+footer a {
+    color: #fff;
+}
+
+footer a:hover {
+    text-decoration: underline;
 }
 
 /* Home */

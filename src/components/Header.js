@@ -3,7 +3,7 @@ import logo from '../assets/trakt-icon-red.svg';
 
 const Header = () => {
     return (
-        <div className="header">
+        <header className="header">
             <div className="header-title">
                 <Link to="/">
                     <img src={logo} alt="My Trakt"></img>
@@ -16,7 +16,7 @@ const Header = () => {
                     <div className="header-nav-shows"><Link to="/shows">Shows</Link></div>
                 </nav>
             </div>
-        </div>
+        </header>
     )
 };
 
