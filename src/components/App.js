@@ -58,6 +58,8 @@ const App = () => {
     }, [setLoading]);
 
     const fetchPosters = useCallback(async (r, t) => {
+        setLoading(true);
+
         let promises = [];
     
         r.forEach(result => {
