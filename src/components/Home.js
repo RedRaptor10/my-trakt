@@ -66,7 +66,7 @@ const Home = ({loading, setLoading, lists, setLists, fetchList, fetchPosters}) =
 
             fetchData();
         }
-    }, [setLoading, lists, fetchList, fetchPosters]);
+    }, [setLoading, lists, setLists, fetchList, fetchPosters]);
 
     return (
         <div>

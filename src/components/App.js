@@ -21,8 +21,7 @@ const App = () => {
         setLoading(true);
   
         let protocol = '/users/' + trakt_id + '/collection/' + type;
-        //let protocol = '/users/' + trakt_id + '/recommendations';
-  
+
         const options = {
           method: 'GET',
           headers: {
