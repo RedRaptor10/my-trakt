@@ -2,7 +2,6 @@
     --primaryColor: rgb(32, 32, 32);
     --highlightColor: rgb(48, 48, 48);
     --color: rgb(192, 192, 192);
-    --borderColor: rgb(48, 48, 48);
 }
 
 body {
@@ -241,7 +240,6 @@ footer a:hover {
     background: var(--primaryColor);
     margin: 0 8px;
     padding: 8px 16px;
-    border: 1px solid var(--borderColor);
 }
 
 .pagination-btn, .pagination-nav-btn {
@@ -262,7 +260,27 @@ footer a:hover {
     text-align: center;
 }
 
-/* Items */
+/* View Type */
+.view-type-btns {
+    display: flex;
+    justify-content: center;
+}
+
+.view-type-btn {
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.view-type-btn:hover {
+    color: #fff;
+}
+
+.view-type-btn-active {
+    color: #fff;
+    cursor: unset;
+}
+
+/* Items - Grid View */
 .items {
     display: flex;
     justify-content: center;
@@ -309,4 +327,20 @@ footer a:hover {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+
+/* Items - List View */
+.items-list {
+    padding: 16px 128px;
+    font-size: 20px;
+}
+
+.items-list a:first-child {
+    border-top: 1px solid rgb(64, 64, 64);
+}
+
+.items-list a {
+    display: block;
+    padding: 16px 0;
+    border-bottom: 1px solid rgb(64, 64, 64);
 }
