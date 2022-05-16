@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
 import Home from './Home';
@@ -109,7 +109,7 @@ const App = () => {
     }, []);
 
     return (
-        <BrowserRouter basename={process.env.NODE_ENV === 'development' ? '/' : '/my-trakt'}>
+        <HashRouter>
             <Header />
             <Routes>
                 <Route exact path="/" element={<Home loading={loading} setLoading={setLoading} lists={lists} setLists={setLists}
@@ -118,7 +118,7 @@ const App = () => {
                     lists={lists} setLists={setLists} fetchCollection={fetchCollection} fetchList={fetchList} fetchPosters={fetchPosters} />} />
             </Routes>
             <Footer />
-        </BrowserRouter>
+        </HashRouter>
     );
 };
 
