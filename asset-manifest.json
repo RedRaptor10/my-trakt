@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/my-trakt/static/css/main.456868d6.css",
-    "main.js": "/my-trakt/static/js/main.b781ffa7.js",
+    "main.css": "/my-trakt/static/css/main.3baabe09.css",
+    "main.js": "/my-trakt/static/js/main.96576f76.js",
     "static/media/trakt-icon-red.svg": "/my-trakt/static/media/trakt-icon-red.e24301891b7237d4af92a7e777572423.svg",
     "index.html": "/my-trakt/index.html",
     "static/media/search-icon.svg": "/my-trakt/static/media/search-icon.a33f109a6d55d1257394c99a0f0d8f27.svg",
-    "main.456868d6.css.map": "/my-trakt/static/css/main.456868d6.css.map",
-    "main.b781ffa7.js.map": "/my-trakt/static/js/main.b781ffa7.js.map"
+    "main.3baabe09.css.map": "/my-trakt/static/css/main.3baabe09.css.map",
+    "main.96576f76.js.map": "/my-trakt/static/js/main.96576f76.js.map"
   },
   "entrypoints": [
-    "static/css/main.456868d6.css",
-    "static/js/main.b781ffa7.js"
+    "static/css/main.3baabe09.css",
+    "static/js/main.96576f76.js"
   ]
 }
