@@ -7,7 +7,7 @@ import logo from '../assets/trakt-icon-red.svg';
 
 const Items = ({loading, setLoading, collection, setCollection, lists, setLists, fetchCollection, fetchList, fetchPosters}) => {
   const { path } = useParams();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const [input, setInput] = useState('');
   const [results, setResults] = useState();
   const [type, setType] = useState(() => {
