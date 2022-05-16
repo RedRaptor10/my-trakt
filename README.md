@@ -12,6 +12,7 @@ My Trakt is a viewer app that uses the Trakt API and TMDB API to display a user'
 - Show a user's top 5 movies and shows
 - Search a user's collection for a specific item(s)
 - Pagination for easier browsing
+- Toggle view type (Grid | List)
 - Support for lists
 
 # Technologies
