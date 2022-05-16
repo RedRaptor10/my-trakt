@@ -19,6 +19,8 @@ const App = () => {
     const [collection, setCollection] = useState();
     const [lists, setLists] = useState();
 
+    // Note: A limitation to the Trakt API is it cannot return a subset of results.
+    // We must fetch the entire collection and set it as a state.
     const fetchCollection = useCallback(async type => {
         setLoading(true);
   
