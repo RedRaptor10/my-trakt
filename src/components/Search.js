@@ -3,7 +3,7 @@ import { isAlphaNumeric } from '../helpers/isAlphaNumeric';
 import { sortResults } from '../helpers/sort';
 import searchIcon from '../assets/search-icon.svg';
 
-const Search = ({input, setInput, collection, lists, setResults, type, listId}) => {
+const Search = ({input, setInput, collection, lists, setResults, type, listId, setPage}) => {
     let timer = useRef(); // useRef keeps timer after re-render
     const delay = 1000;
 
@@ -44,6 +44,7 @@ const Search = ({input, setInput, collection, lists, setResults, type, listId}) 
             // Sort results by title
             sortResults(searchResults, type);
             setResults(searchResults);
+            setPage(1);
         }, delay);
     };
 

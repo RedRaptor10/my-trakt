@@ -148,7 +148,7 @@ const Items = ({loading, setLoading, collection, setCollection, lists, setLists,
       :
       items ?
       <div>
-        <Search input={input} setInput={setInput} collection={collection} lists={lists} setResults={setResults} type={type} listId={listId} />
+        <Search input={input} setInput={setInput} collection={collection} lists={lists} setResults={setResults} type={type} listId={listId} setPage={setPage} />
         <Pagination results={results} type={type} page={page} setPage={setPage} limit={limit} />
         <div className="items">
           {items && posters && items.length > 0 ?
