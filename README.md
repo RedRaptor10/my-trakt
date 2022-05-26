@@ -23,8 +23,6 @@ My Trakt is a viewer app that uses the Trakt API and TMDB API to display a user'
 - CSS
 
 # To Do
-- Add caching for data
 - Add support for different users
 - Display item description
 - Add Lists page
-- Add mobile support
