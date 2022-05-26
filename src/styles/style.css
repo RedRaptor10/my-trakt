@@ -344,3 +344,133 @@ footer a:hover {
     padding: 16px 0;
     border-bottom: 1px solid rgb(64, 64, 64);
 }
+
+/* Mobile */
+@media screen and (max-width: 1000px) {
+    /* Header */
+    header {
+        display: block;
+        height: unset;
+    }
+
+    .header-title {
+        display: flex;
+        justify-content: center;
+    }
+
+    .header-title a {
+        font-size: 32px;
+    }
+
+    .header-title img {
+        height: 48px;
+    }
+
+    .header-nav-container {
+        position: unset;
+        width: unset;
+    }
+
+    .header-nav {
+        font-size: 24px;
+    }
+
+    .header-nav div {
+        margin: 16px 32px 8px 32px;
+    }
+
+    /* Footer */
+    footer {
+        font-size: 12px;
+        text-align: center;
+    }
+
+    /* Home */
+    .home-items-container {
+        padding: 0;
+    }
+
+    .home-items {
+        padding: 0;
+    }
+
+    .home-items-header {
+        font-size: 16px;
+    }
+
+    .home-item-rank {
+        padding: 0 16px;
+        font-size: 24px;
+    }
+
+    .home-item {
+        display: unset;
+        height: 100%;
+        padding-right: 16px;
+    }
+
+    .home-item-poster-container {
+        display: inline-block;
+        height: 100%;
+    }
+
+    .home-item-info {
+        padding: 8px 0;
+    }
+
+    .home-item-title {
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .home-item-year {
+        margin-top: 8px;
+        font-size: 12px;
+        text-align: center;
+    }
+
+    .home-view-all-btn a {
+        margin-left: 29px;
+        padding: 16px;
+        font-size: 16px;
+    }
+
+    /* Search Box */
+    .search-box {
+        width: 75%;
+    }
+
+    /* Pagination */
+    .pagination-btns {
+        flex-wrap: wrap;
+        gap: 16px;
+    }
+
+    .pagination-btn, .pagination-current-btn, .pagination-nav-btn {
+        margin: 0;
+        padding: 4px 8px;
+    }
+
+    /* Items - Grid View */
+    .items {
+        gap: 24px;
+    }
+
+    .item {
+        width: 100px;
+    }
+
+    .item-title span {
+        padding: 0;
+        font-size: 12px;
+    }
+
+    /* Items - List View */
+    .items-list {
+        padding: 0;
+    }
+
+    .items-list a {
+        padding: 16px 8px;
+    }
+}
