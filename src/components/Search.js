@@ -12,11 +12,6 @@ const Search = ({input, setInput, collection, lists, setResults, type, listId, s
     };
 
     const submitSearch = event => {
-        // If Enter key is pressed, prevent page refresh from default form event
-        if (event.keyCode === 13) {
-            event.preventDefault();
-        }
-
         // If a key is pressed again, clear the previous timer
         clearTimeout(timer.current);
 
