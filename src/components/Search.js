@@ -12,11 +12,16 @@ const Search = ({input, setInput, collection, lists, setResults, type, listId, s
     };
 
     const submitSearch = event => {
+        // If Enter key is pressed, prevent page refresh from default form event
+        if (event.keyCode === 13) {
+            event.preventDefault();
+        }
+
         // If a key is pressed again, clear the previous timer
         clearTimeout(timer.current);
 
-        // If key is not alphanumeric [0-9a-z], return
-        if (!isAlphaNumeric(event.keyCode)) { return }
+        // If key is not alphanumeric [0-9a-z] and is not Enter, return
+        if (!isAlphaNumeric(event.keyCode) && event.keyCode !== 13) { return }
 
         // Set timer for 1 second before searching
         timer.current = setTimeout(() => {
