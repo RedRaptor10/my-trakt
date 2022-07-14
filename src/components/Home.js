@@ -17,21 +17,16 @@ const Home = ({loading, setLoading, lists, setLists, fetchList, fetchPosters}) =
         // Asynchronously fetch lists, set display items, and fetch images
         if (!lists || !lists.hasOwnProperty(favoritesMovies) || !lists.hasOwnProperty(favoritesShows)) {
             const fetchData = async () => {
-                try {
-                    const movies = await fetchList(favoritesMovies);
-                    const shows = await fetchList(favoritesShows);
+                const movies = await fetchList(favoritesMovies);
+                const shows = await fetchList(favoritesShows);
 
-                    const tempLists = {
-                        ...lists,
-                        [favoritesMovies]: movies,
-                        [favoritesShows]: shows
-                    };
+                const tempLists = {
+                    ...lists,
+                    [favoritesMovies]: movies,
+                    [favoritesShows]: shows
+                };
 
-                    setLists(tempLists);
-                }
-                catch (error) {
-                    console.log(error);
-                }
+                setLists(tempLists);
             }
 
             fetchData();
@@ -39,29 +34,24 @@ const Home = ({loading, setLoading, lists, setLists, fetchList, fetchPosters}) =
         // Set display items and fetch posters
         else {
             const fetchData = async () => {
-                try {
-                    // Set display items to limit
-                    const tempItems = {
-                        'movies': lists[favoritesMovies].slice(0, limit),
-                        'shows': lists[favoritesShows].slice(0, limit)
-                    };
+                // Set display items to limit
+                const tempItems = {
+                    'movies': lists[favoritesMovies].slice(0, limit),
+                    'shows': lists[favoritesShows].slice(0, limit)
+                };
 
-                    setItems(tempItems);
+                setItems(tempItems);
 
-                    const moviePosters = await fetchPosters(tempItems['movies'], 'movies');
-                    const showPosters = await fetchPosters(tempItems['shows'], 'shows');
+                const moviePosters = await fetchPosters(tempItems['movies'], 'movies');
+                const showPosters = await fetchPosters(tempItems['shows'], 'shows');
 
-                    const tempPosters = {
-                        'movies': moviePosters,
-                        'shows': showPosters
-                    };
+                const tempPosters = {
+                    'movies': moviePosters,
+                    'shows': showPosters
+                };
 
-                    setPosters(tempPosters);
-                    setLoading(false);
-                }
-                catch (error) {
-                    console.log(error);
-                }
+                setPosters(tempPosters);
+                setLoading(false);
             }
 
             fetchData();

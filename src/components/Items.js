@@ -92,21 +92,16 @@ const Items = ({loading, setLoading, collection, setCollection, lists, setLists,
     if (!listId &&
       (!collection || (type === 'movies' && !collection.hasOwnProperty('movies')) || (type === 'shows' && !collection.hasOwnProperty('shows')))) {
       const fetchData = async () => {
-        try {
-          let c = await fetchCollection(type);
+        let c = await fetchCollection(type);
 
-          setCollection({
-            ...collection,
-            [type]: c
-          });
+        setCollection({
+          ...collection,
+          [type]: c
+        });
 
-          // Sort results by title
-          sortResults(c, type);
-          setResults(c);
-        }
-        catch(error) {
-          console.log(error);
-        }
+        // Sort results by title
+        sortResults(c, type);
+        setResults(c);
       };
 
       fetchData();
@@ -114,21 +109,16 @@ const Items = ({loading, setLoading, collection, setCollection, lists, setLists,
     // Fetch list
     else if (listId && (!lists || !lists.hasOwnProperty(listId))) {
       const fetchData = async () => {
-        try {
-          const l = await fetchList(listId);
+        const l = await fetchList(listId);
 
-          setLists({
-            ...lists,
-            [listId]: l
-          });
+        setLists({
+          ...lists,
+          [listId]: l
+        });
 
-          // Sort results by title
-          sortResults(l, type);
-          setResults(l);
-        }
-        catch (error) {
-          console.log(error);
-        }
+        // Sort results by title
+        sortResults(l, type);
+        setResults(l);
       };
 
       fetchData();
@@ -143,21 +133,16 @@ const Items = ({loading, setLoading, collection, setCollection, lists, setLists,
     // Set display items and fetch posters
     else {
       const fetchData = async () => {
-        try {
-          // Set display items to limit
-          const i = results.slice(limit * (page - 1), limit * page);
-          setItems(i);
+        // Set display items to limit
+        const i = results.slice(limit * (page - 1), limit * page);
+        setItems(i);
 
-          if (view === 'grid') {
-            const p = await fetchPosters(i, type);
-            setPosters(p);
-          }
+        if (view === 'grid') {
+          const p = await fetchPosters(i, type);
+          setPosters(p);
+        }
 
-          setLoading(false);
-        }
-        catch (error) {
-          console.log(error);
-        }
+        setLoading(false);
       };
 
       fetchData();

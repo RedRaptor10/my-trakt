@@ -98,9 +98,6 @@ const App = () => {
                         id: result.id,
                         poster: (found && res.posters.length > 0) ? res.posters[highestIndex].file_path : null
                     });
-                })
-                .catch(error => {
-                    console.log(error);
                 });
             }));
         });
