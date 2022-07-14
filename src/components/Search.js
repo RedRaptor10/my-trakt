@@ -1,12 +1,7 @@
-import { useRef } from 'react';
-import { isAlphaNumeric } from '../helpers/isAlphaNumeric';
 import { sortResults } from '../helpers/sort';
 import searchIcon from '../assets/search-icon.svg';
 
 const Search = ({input, setInput, collection, lists, setResults, type, listId, setPage}) => {
-    let timer = useRef(); // useRef keeps timer after re-render
-    const delay = 1000;
-
     const handleChange = event => {
         setInput(event.target.value);
     };
@@ -15,16 +10,7 @@ const Search = ({input, setInput, collection, lists, setResults, type, listId, s
         // If Enter key is pressed, prevent page refresh from default form event
         if (event.keyCode === 13) {
             event.preventDefault();
-        }
 
-        // If a key is pressed again, clear the previous timer
-        clearTimeout(timer.current);
-
-        // If key is not alphanumeric [0-9a-z] and is not Enter, return
-        if (!isAlphaNumeric(event.keyCode) && event.keyCode !== 13) { return }
-
-        // Set timer for 1 second before searching
-        timer.current = setTimeout(() => {
             const items = listId ? lists[listId] : collection[type];
 
             let searchResults = items.filter(item => {
@@ -45,7 +31,7 @@ const Search = ({input, setInput, collection, lists, setResults, type, listId, s
             sortResults(searchResults, type);
             setResults(searchResults);
             setPage(1);
-        }, delay);
+        }
     };
 
     return (

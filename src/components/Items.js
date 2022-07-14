@@ -53,12 +53,6 @@ const Items = ({loading, setLoading, collection, setCollection, lists, setLists,
     }
   };
 
-  // Focus on Search Input field when input or posters change
-  useEffect(() => {
-    const searchInput = document.getElementById('search-input');
-    if (searchInput && input !== '') { searchInput.focus() }
-  }, [input, posters]);
-
   // Add active class and toggles to header links on mount
   useEffect(() => {
     const headerMovies = document.querySelector('.header-nav-movies');
