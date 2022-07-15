@@ -5,7 +5,7 @@ import Pagination from './Pagination';
 import { sortResults } from '../helpers/sort';
 import logo from '../assets/trakt-icon-red.svg';
 
-const Items = ({loading, setLoading, collection, setCollection, lists, setLists, typeProp, fetchCollection, fetchList, fetchPosters}) => {
+const Items = ({loading, setLoading, collection, setCollection, lists, setLists, typeProp, fetchData, fetchPosters}) => {
   const { listId } = useParams();
   const [searchParams] = useSearchParams();
   const [input, setInput] = useState('');
@@ -80,9 +80,10 @@ const Items = ({loading, setLoading, collection, setCollection, lists, setLists,
     setPosters();
 
     // Fetch collection
-    if (!collection || (type === 'movies' && !collection.hasOwnProperty('movies')) || (type === 'shows' && !collection.hasOwnProperty('shows'))) {
-      const fetchData = async () => {
-        let c = await fetchCollection(type);
+    if (type !== 'lists' &&
+      (!collection || (type === 'movies' && !collection.hasOwnProperty('movies')) || (type === 'shows' && !collection.hasOwnProperty('shows')))) {
+      const fetchCollection = async () => {
+        let c = await fetchData('collection', type);
 
         setCollection({
           ...collection,
@@ -94,35 +95,39 @@ const Items = ({loading, setLoading, collection, setCollection, lists, setLists,
         setResults(c);
       };
 
-      fetchData();
+      fetchCollection();
     }
     // Fetch list
     else if (type === 'lists' && (!lists || !lists.hasOwnProperty(listId))) {
-      const fetchData = async () => {
-        const l = await fetchList(listId);
+      const fetchList = async () => {
+        const l = await fetchData('list', null, listId);
+        const li = await fetchData('list-items', null, listId);
 
         setLists({
           ...lists,
-          [listId]: l
+          [listId]: {
+            ...l,
+            items: li
+          }
         });
 
         // Sort results by title
-        sortResults(l, type);
-        setResults(l);
+        sortResults(li, type);
+        setResults(li);
       };
 
-      fetchData();
+      fetchList();
     }
     // If there is a collection or list but there are no results, set results again (ie. revisiting a page after already fetching data)
     else if (!results) {
-      const r = type === 'lists' ? lists[listId].slice() : collection[type]; // Copy list array to prevent modification after sort
+      const r = type === 'lists' ? lists[listId].items.slice() : collection[type]; // Copy list array to prevent modification after sort
 
       sortResults(r, type);
       setResults(r);
     }
     // Set display items and fetch posters
     else {
-      const fetchData = async () => {
+      const fetchPostersData = async () => {
         // Set display items to limit
         const i = results.slice(limit * (page - 1), limit * page);
         setItems(i);
@@ -135,10 +140,10 @@ const Items = ({loading, setLoading, collection, setCollection, lists, setLists,
         setLoading(false);
       };
 
-      fetchData();
+      fetchPostersData();
     }
 
-  }, [setLoading, collection, setCollection, lists, setLists, results, type, listId, page, limit, view, fetchCollection, fetchList, fetchPosters]);
+  }, [setLoading, collection, setCollection, lists, setLists, results, type, listId, page, limit, view, fetchData, fetchPosters]);
 
   return (
     <div>
@@ -151,6 +156,12 @@ const Items = ({loading, setLoading, collection, setCollection, lists, setLists,
       <div>
         <Search input={input} setInput={setInput} collection={collection} lists={lists} setResults={setResults} type={type} listId={listId} setPage={setPage} />
         <Pagination results={results} type={type} page={page} setPage={setPage} limit={limit} view={view} changeView={changeView} />
+        <h1>
+          {type === 'movies' ? 'Movies'
+          : type === 'shows' ? 'Shows'
+          : type === 'lists' ? 'List - ' + lists[listId].name
+          : null}
+        </h1>
         <div className={view === 'grid' ? 'items' : 'items-list'}>
           {items && items.length > 0 ?
             items.map((item, i) => {

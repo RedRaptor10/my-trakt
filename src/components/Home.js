@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../assets/trakt-icon-red.svg';
 
-const Home = ({loading, setLoading, lists, setLists, fetchList, fetchPosters}) => {
+const Home = ({loading, setLoading, lists, setLists, fetchData, fetchPosters}) => {
     const [items, setItems] = useState();
     const [posters, setPosters] = useState();
     const limit = 5;
@@ -16,28 +16,32 @@ const Home = ({loading, setLoading, lists, setLists, fetchList, fetchPosters}) =
 
         // Asynchronously fetch lists, set display items, and fetch images
         if (!lists || !lists.hasOwnProperty(favoritesMovies) || !lists.hasOwnProperty(favoritesShows)) {
-            const fetchData = async () => {
-                const movies = await fetchList(favoritesMovies);
-                const shows = await fetchList(favoritesShows);
+            const fetchLists = async () => {
+                const movies = await fetchData('list-items', null, favoritesMovies);
+                const shows = await fetchData('list-items', null, favoritesShows);
 
                 const tempLists = {
                     ...lists,
-                    [favoritesMovies]: movies,
-                    [favoritesShows]: shows
+                    [favoritesMovies]: {
+                        items: movies
+                    },
+                    [favoritesShows]: {
+                        items: shows
+                    }
                 };
 
                 setLists(tempLists);
             }
 
-            fetchData();
+            fetchLists();
         }
         // Set display items and fetch posters
         else {
-            const fetchData = async () => {
+            const fetchPostersData = async () => {
                 // Set display items to limit
                 const tempItems = {
-                    'movies': lists[favoritesMovies].slice(0, limit),
-                    'shows': lists[favoritesShows].slice(0, limit)
+                    'movies': lists[favoritesMovies].items.slice(0, limit),
+                    'shows': lists[favoritesShows].items.slice(0, limit)
                 };
 
                 setItems(tempItems);
@@ -54,9 +58,9 @@ const Home = ({loading, setLoading, lists, setLists, fetchList, fetchPosters}) =
                 setLoading(false);
             }
 
-            fetchData();
+            fetchPostersData();
         }
-    }, [setLoading, lists, setLists, fetchList, fetchPosters]);
+    }, [setLoading, lists, setLists, fetchData, fetchPosters]);
 
     return (
         <div>

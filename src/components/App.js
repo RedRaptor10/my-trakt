@@ -21,43 +21,31 @@ const App = () => {
 
     // Note: A limitation to the Trakt API is it cannot return a subset of results.
     // We must fetch the entire collection and set it as a state.
-    const fetchCollection = useCallback(async type => {
+    const fetchData = useCallback(async (resource, type, listId) => {
         setLoading(true);
-  
-        let protocol = '/users/' + trakt_id + '/collection/' + type;
+
+        let protocol = '';
+        if (resource === 'collection') {
+            protocol = '/users/' + trakt_id + '/collection/' + type;
+        } else if (resource === 'list') {
+            protocol = '/users/' + trakt_id + '/lists/' + listId;
+        } else if (resource === 'list-items') {
+            protocol = '/users/' + trakt_id + '/lists/' + listId + '/items';
+        }
 
         const options = {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'trakt-api-version': 2,
-            'trakt-api-key': client_id
-          }
-        };
-  
-        // Return fetch results as Promise
-        const data = await fetch(trakt_url + protocol, options);
-        return data.json();
-    }, [setLoading]);
-
-    const fetchList = useCallback(async listId => {
-        setLoading(true);
-  
-        let protocol = '/users/' + trakt_id + '/lists/' + listId + '/items';
-  
-        const options = {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'trakt-api-version': 2,
-            'trakt-api-key': client_id
-          }
-        };
-  
-        // Return fetch results as Promise
-        const data = await fetch(trakt_url + protocol, options);
-        return data.json();
-    }, [setLoading]);
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              'trakt-api-version': 2,
+              'trakt-api-key': client_id
+            }
+          };
+    
+          // Return fetch results as Promise
+          const data = await fetch(trakt_url + protocol, options);
+          return data.json();
+    }, [setLoading])
 
     const fetchPosters = useCallback(async (r, t) => {
         setLoading(true);
@@ -114,13 +102,13 @@ const App = () => {
             <Header />
             <Routes>
                 <Route exact path="/" element={<Home loading={loading} setLoading={setLoading} lists={lists} setLists={setLists}
-                    fetchList={fetchList} fetchPosters={fetchPosters} />} />
+                    fetchData={fetchData} fetchPosters={fetchPosters} />} />
                 <Route exact path="/movies" element={<Items loading={loading} setLoading={setLoading} collection={collection} setCollection={setCollection}
-                    lists={lists} setLists={setLists} typeProp={'movies'} fetchCollection={fetchCollection} fetchList={fetchList} fetchPosters={fetchPosters} />} />
-                    <Route exact path="/shows" element={<Items loading={loading} setLoading={setLoading} collection={collection} setCollection={setCollection}
-                    lists={lists} setLists={setLists} typeProp={'shows'} fetchCollection={fetchCollection} fetchList={fetchList} fetchPosters={fetchPosters} />} />
+                    lists={lists} setLists={setLists} typeProp={'movies'} fetchData={fetchData} fetchPosters={fetchPosters} />} />
+                <Route exact path="/shows" element={<Items loading={loading} setLoading={setLoading} collection={collection} setCollection={setCollection}
+                    lists={lists} setLists={setLists} typeProp={'shows'} fetchData={fetchData} fetchPosters={fetchPosters} />} />
                 <Route exact path="/lists/:listId" element={<Items loading={loading} setLoading={setLoading} collection={collection} setCollection={setCollection}
-                    lists={lists} setLists={setLists} typeProp={'lists'} fetchCollection={fetchCollection} fetchList={fetchList} fetchPosters={fetchPosters} />} />
+                    lists={lists} setLists={setLists} typeProp={'lists'} fetchData={fetchData} fetchPosters={fetchPosters} />} />
             </Routes>
             <Footer />
         </HashRouter>
