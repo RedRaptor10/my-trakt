@@ -10,6 +10,10 @@ const sortResults = (results, type) => {
             titleA = a.show.title.toLowerCase();
             titleB = b.show.title.toLowerCase();
         }
+        else if (type === 'lists') {
+            titleA = a[a.type].title.toLowerCase();
+            titleB = b[b.type].title.toLowerCase();
+        }
 
         titleA = removeArticles(titleA);
         titleB = removeArticles(titleB);

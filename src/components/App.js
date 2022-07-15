@@ -68,6 +68,10 @@ const App = () => {
             let methodUrl;
             if (t === 'movies') { methodUrl = '/movie/' + result.movie.ids.tmdb }
             else if (t === 'shows') { methodUrl = '/tv/' + result.show.ids.tmdb }
+            else if (t === 'lists') {
+                if (result.type === 'movie') { methodUrl = '/movie/' + result.movie.ids.tmdb }
+                else if (result.type === 'show') { methodUrl = '/tv/' + result.show.ids.tmdb }
+            }
 
             // Multiple asynchronous fetches require pushing all Promises into an array
             promises.push(new Promise((resolve, reject) => {
@@ -111,8 +115,12 @@ const App = () => {
             <Routes>
                 <Route exact path="/" element={<Home loading={loading} setLoading={setLoading} lists={lists} setLists={setLists}
                     fetchList={fetchList} fetchPosters={fetchPosters} />} />
-                <Route exact path="/:path" element={<Items loading={loading} setLoading={setLoading} collection={collection} setCollection={setCollection}
-                    lists={lists} setLists={setLists} fetchCollection={fetchCollection} fetchList={fetchList} fetchPosters={fetchPosters} />} />
+                <Route exact path="/movies" element={<Items loading={loading} setLoading={setLoading} collection={collection} setCollection={setCollection}
+                    lists={lists} setLists={setLists} typeProp={'movies'} fetchCollection={fetchCollection} fetchList={fetchList} fetchPosters={fetchPosters} />} />
+                    <Route exact path="/shows" element={<Items loading={loading} setLoading={setLoading} collection={collection} setCollection={setCollection}
+                    lists={lists} setLists={setLists} typeProp={'shows'} fetchCollection={fetchCollection} fetchList={fetchList} fetchPosters={fetchPosters} />} />
+                <Route exact path="/lists/:listId" element={<Items loading={loading} setLoading={setLoading} collection={collection} setCollection={setCollection}
+                    lists={lists} setLists={setLists} typeProp={'lists'} fetchCollection={fetchCollection} fetchList={fetchList} fetchPosters={fetchPosters} />} />
             </Routes>
             <Footer />
         </HashRouter>

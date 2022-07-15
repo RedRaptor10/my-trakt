@@ -100,7 +100,7 @@ const Home = ({loading, setLoading, lists, setLists, fetchList, fetchPosters}) =
                         })
                         : null}
                         <div className="home-view-all-btn">
-                            <Link to="/favorites-movies">View More</Link>
+                            <Link to="/lists/favorites-movies">View More</Link>
                         </div>
                     </div>
                     <div className="home-items">
@@ -135,7 +135,7 @@ const Home = ({loading, setLoading, lists, setLists, fetchList, fetchPosters}) =
                         })
                         : null}
                         <div className="home-view-all-btn">
-                            <Link to="/favorites-shows">View More</Link>
+                            <Link to="/lists/favorites-shows">View More</Link>
                         </div>
                     </div>
                     </div>

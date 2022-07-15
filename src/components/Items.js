@@ -5,23 +5,14 @@ import Pagination from './Pagination';
 import { sortResults } from '../helpers/sort';
 import logo from '../assets/trakt-icon-red.svg';
 
-const Items = ({loading, setLoading, collection, setCollection, lists, setLists, fetchCollection, fetchList, fetchPosters}) => {
-  const { path } = useParams();
+const Items = ({loading, setLoading, collection, setCollection, lists, setLists, typeProp, fetchCollection, fetchList, fetchPosters}) => {
+  const { listId } = useParams();
   const [searchParams] = useSearchParams();
   const [input, setInput] = useState('');
   const [results, setResults] = useState();
-  const [type, setType] = useState(() => {
-    if (path === 'movies' || path === 'favorites-movies') { return 'movies' }
-    else if (path === 'shows' || path === 'favorites-shows') { return 'shows' }
-    return 'movies';
-  });
-  const [listId, setListId] = useState(() => {
-    if (path === 'favorites-movies') { return 'favorites-movies' }
-    else if (path === 'favorites-shows') { return 'favorites-shows' }
-    return false;
-  });
   const [items, setItems] = useState();
   const [posters, setPosters] = useState();
+  const [type, setType] = useState(typeProp);
   const [page, setPage] = useState(1);
   const [view, setView] = useState(searchParams.has('view') ? searchParams.get('view') : 'grid');
   const limitDefault = 25;
@@ -67,8 +58,8 @@ const Items = ({loading, setLoading, collection, setCollection, lists, setLists,
       }
       setInput('');
       setPage(1);
-      setListId();
       setType(t);
+      setItems();
     };
 
     headerMovies.onclick = () => { toggleType('movies') };
@@ -89,8 +80,7 @@ const Items = ({loading, setLoading, collection, setCollection, lists, setLists,
     setPosters();
 
     // Fetch collection
-    if (!listId &&
-      (!collection || (type === 'movies' && !collection.hasOwnProperty('movies')) || (type === 'shows' && !collection.hasOwnProperty('shows')))) {
+    if (!collection || (type === 'movies' && !collection.hasOwnProperty('movies')) || (type === 'shows' && !collection.hasOwnProperty('shows'))) {
       const fetchData = async () => {
         let c = await fetchCollection(type);
 
@@ -107,7 +97,7 @@ const Items = ({loading, setLoading, collection, setCollection, lists, setLists,
       fetchData();
     }
     // Fetch list
-    else if (listId && (!lists || !lists.hasOwnProperty(listId))) {
+    else if (type === 'lists' && (!lists || !lists.hasOwnProperty(listId))) {
       const fetchData = async () => {
         const l = await fetchList(listId);
 
@@ -125,7 +115,7 @@ const Items = ({loading, setLoading, collection, setCollection, lists, setLists,
     }
     // If there is a collection or list but there are no results, set results again (ie. revisiting a page after already fetching data)
     else if (!results) {
-      const r = listId ? lists[listId].slice() : collection[type]; // Copy list array to prevent modification after sort
+      const r = type === 'lists' ? lists[listId].slice() : collection[type]; // Copy list array to prevent modification after sort
 
       sortResults(r, type);
       setResults(r);
@@ -148,7 +138,7 @@ const Items = ({loading, setLoading, collection, setCollection, lists, setLists,
       fetchData();
     }
 
-  }, [path, setLoading, collection, setCollection, lists, setLists, results, type, listId, page, limit, view, fetchCollection, fetchList, fetchPosters]);
+  }, [setLoading, collection, setCollection, lists, setLists, results, type, listId, page, limit, view, fetchCollection, fetchList, fetchPosters]);
 
   return (
     <div>
@@ -164,19 +154,22 @@ const Items = ({loading, setLoading, collection, setCollection, lists, setLists,
         <div className={view === 'grid' ? 'items' : 'items-list'}>
           {items && items.length > 0 ?
             items.map((item, i) => {
-              let imdb;
-              let title;
-              let year;
-              if (type === 'movies' && item.hasOwnProperty('movie')) {
+              let imdb, title, year;
+
+              if (type === 'movies') {
                 imdb = item.movie.ids.imdb;
                 title = item.movie.title;
                 year = item.movie.year;
-              }
-              else if (type === 'shows' && item.hasOwnProperty('show')) {
+              } else if (type === 'shows') {
                 imdb = item.show.ids.imdb;
                 title = item.show.title;
                 year = item.show.year;
+              } else if (type === 'lists') {
+                imdb = item[item.type].ids.imdb;
+                title = item[item.type].title;
+                year = item[item.type].year;
               }
+
               return (
                 posters && view === 'grid' ?
                 <a key={i} className="item" href={'https://www.imdb.com/title/' + imdb} target="_blank" rel="noreferrer">
