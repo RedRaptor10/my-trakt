@@ -137,7 +137,7 @@ const Items = ({loading, setLoading, collection, setCollection, lists, setLists,
         const i = results.slice(limit * (page - 1), limit * page);
         setItems(i);
 
-        if (view === 'grid') {
+        if (view === 'grid' && i.length > 0) {
           const p = await fetchPosters(i, type);
           setPosters(p);
         }
