@@ -5,7 +5,7 @@ import Pagination from './Pagination';
 import { sortResults } from '../helpers/sort';
 import logo from '../assets/trakt-icon-red.svg';
 
-const Items = ({loading, setLoading, collection, setCollection, lists, setLists, typeProp, fetchData, fetchPosters}) => {
+const Items = ({loading, setLoading, collection, setCollection, list, setList, typeProp, fetchData, fetchPosters}) => {
   const { listId } = useParams();
   const [searchParams] = useSearchParams();
   const [input, setInput] = useState('');
@@ -80,7 +80,7 @@ const Items = ({loading, setLoading, collection, setCollection, lists, setLists,
     setPosters();
 
     // Fetch collection
-    if (type !== 'lists' &&
+    if (type !== 'list' &&
       (!collection || (type === 'movies' && !collection.hasOwnProperty('movies')) || (type === 'shows' && !collection.hasOwnProperty('shows')))) {
       const fetchCollection = async () => {
         let c = await fetchData('collection', type);
@@ -98,17 +98,14 @@ const Items = ({loading, setLoading, collection, setCollection, lists, setLists,
       fetchCollection();
     }
     // Fetch list
-    else if (type === 'lists' && (!lists || !lists.hasOwnProperty(listId))) {
+    else if (type === 'list' && (!list || list.ids.slug !== listId)) {
       const fetchList = async () => {
         const l = await fetchData('list', null, listId);
         const li = await fetchData('list-items', null, listId);
 
-        setLists({
-          ...lists,
-          [listId]: {
-            ...l,
-            items: li
-          }
+        setList({
+          ...l,
+          items: li
         });
 
         // Sort results by title
@@ -120,7 +117,7 @@ const Items = ({loading, setLoading, collection, setCollection, lists, setLists,
     }
     // If there is a collection or list but there are no results, set results again (ie. revisiting a page after already fetching data)
     else if (!results) {
-      const r = type === 'lists' ? lists[listId].items.slice() : collection[type]; // Copy list array to prevent modification after sort
+      const r = type === 'list' ? list.items.slice() : collection[type]; // Copy list array to prevent modification after sort
 
       sortResults(r, type);
       setResults(r);
@@ -143,10 +140,10 @@ const Items = ({loading, setLoading, collection, setCollection, lists, setLists,
       fetchPostersData();
     }
 
-  }, [setLoading, collection, setCollection, lists, setLists, results, type, listId, page, limit, view, fetchData, fetchPosters]);
+  }, [setLoading, collection, setCollection, list, setList, results, type, listId, page, limit, view, fetchData, fetchPosters]);
 
   return (
-    <div>
+    <main className="items">
       {loading ?
       <div className="spinner-container">
         <div className="loading-spinner"></div>
@@ -154,15 +151,15 @@ const Items = ({loading, setLoading, collection, setCollection, lists, setLists,
       :
       items ?
       <div>
-        <Search input={input} setInput={setInput} collection={collection} lists={lists} setResults={setResults} type={type} listId={listId} setPage={setPage} />
+        <Search input={input} setInput={setInput} collection={collection} list={list} setResults={setResults} type={type} listId={listId} setPage={setPage} />
         <Pagination results={results} type={type} page={page} setPage={setPage} limit={limit} view={view} changeView={changeView} />
         <h1>
           {type === 'movies' ? 'Movies'
           : type === 'shows' ? 'Shows'
-          : type === 'lists' ? 'List - ' + lists[listId].name
+          : type === 'list' ? 'List - ' + list.name
           : null}
         </h1>
-        <div className={view === 'grid' ? 'items' : 'items-list'}>
+        <div className={view === 'grid' ? 'items-grid' : 'items-list'}>
           {items && items.length > 0 ?
             items.map((item, i) => {
               let imdb, title, year;
@@ -175,7 +172,7 @@ const Items = ({loading, setLoading, collection, setCollection, lists, setLists,
                 imdb = item.show.ids.imdb;
                 title = item.show.title;
                 year = item.show.year;
-              } else if (type === 'lists') {
+              } else if (type === 'list') {
                 imdb = item[item.type].ids.imdb;
                 title = item[item.type].title;
                 year = item[item.type].year;
@@ -202,7 +199,7 @@ const Items = ({loading, setLoading, collection, setCollection, lists, setLists,
         </div>
       </div>
       : null}
-    </div>
+    </main>
   );
 }
 

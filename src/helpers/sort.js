@@ -10,7 +10,7 @@ const sortResults = (results, type) => {
             titleA = a.show.title.toLowerCase();
             titleB = b.show.title.toLowerCase();
         }
-        else if (type === 'lists') {
+        else if (type === 'list') {
             titleA = a[a.type].title.toLowerCase();
             titleB = b[b.type].title.toLowerCase();
         }
