@@ -4,6 +4,7 @@ import Header from './Header';
 import Footer from './Footer';
 import Home from './Home';
 import Items from './Items';
+import Lists from './Lists';
 
 // Trakt Documentation: https://trakt.docs.apiary.io
 // TMDB Documentation: https://developers.themoviedb.org/3
@@ -18,6 +19,7 @@ const App = () => {
     const [loading, setLoading] = useState(false);
     const [collection, setCollection] = useState();
     const [lists, setLists] = useState();
+    const [list, setList] = useState();
 
     // Note: A limitation to the Trakt API is it cannot return a subset of results.
     // We must fetch the entire collection and set it as a state.
@@ -25,11 +27,13 @@ const App = () => {
         setLoading(true);
 
         let protocol = '';
-        if (resource === 'collection') {
+        if (resource === 'collection' && type) {
             protocol = '/users/' + trakt_id + '/collection/' + type;
-        } else if (resource === 'list') {
+        } else if (resource === 'lists') {
+            protocol = '/users/' + trakt_id + '/lists';
+        } else if (resource === 'list' && listId) {
             protocol = '/users/' + trakt_id + '/lists/' + listId;
-        } else if (resource === 'list-items') {
+        } else if (resource === 'list-items' && listId) {
             protocol = '/users/' + trakt_id + '/lists/' + listId + '/items';
         }
 
@@ -40,11 +44,11 @@ const App = () => {
               'trakt-api-version': 2,
               'trakt-api-key': client_id
             }
-          };
+        };
     
-          // Return fetch results as Promise
-          const data = await fetch(trakt_url + protocol, options);
-          return data.json();
+        // Return fetch results as Promise
+        const data = await fetch(trakt_url + protocol, options);
+        return data.json();
     }, [setLoading])
 
     const fetchPosters = useCallback(async (r, t) => {
@@ -56,7 +60,7 @@ const App = () => {
             let methodUrl;
             if (t === 'movies') { methodUrl = '/movie/' + result.movie.ids.tmdb }
             else if (t === 'shows') { methodUrl = '/tv/' + result.show.ids.tmdb }
-            else if (t === 'lists') {
+            else if (t === 'list') {
                 if (result.type === 'movie') { methodUrl = '/movie/' + result.movie.ids.tmdb }
                 else if (result.type === 'show') { methodUrl = '/tv/' + result.show.ids.tmdb }
             }
@@ -101,14 +105,16 @@ const App = () => {
         <HashRouter>
             <Header />
             <Routes>
-                <Route exact path="/" element={<Home loading={loading} setLoading={setLoading} lists={lists} setLists={setLists}
+                <Route exact path="/" element={<Home loading={loading} setLoading={setLoading} list={list} setList={setList}
                     fetchData={fetchData} fetchPosters={fetchPosters} />} />
                 <Route exact path="/movies" element={<Items loading={loading} setLoading={setLoading} collection={collection} setCollection={setCollection}
-                    lists={lists} setLists={setLists} typeProp={'movies'} fetchData={fetchData} fetchPosters={fetchPosters} />} />
+                    list={list} setList={setList} typeProp={'movies'} fetchData={fetchData} fetchPosters={fetchPosters} />} />
                 <Route exact path="/shows" element={<Items loading={loading} setLoading={setLoading} collection={collection} setCollection={setCollection}
-                    lists={lists} setLists={setLists} typeProp={'shows'} fetchData={fetchData} fetchPosters={fetchPosters} />} />
+                    list={list} setList={setList} typeProp={'shows'} fetchData={fetchData} fetchPosters={fetchPosters} />} />
+                <Route exact path="/lists" element={<Lists loading={loading} setLoading={setLoading} lists={lists} setLists={setLists}
+                    fetchData={fetchData} />} />
                 <Route exact path="/lists/:listId" element={<Items loading={loading} setLoading={setLoading} collection={collection} setCollection={setCollection}
-                    lists={lists} setLists={setLists} typeProp={'lists'} fetchData={fetchData} fetchPosters={fetchPosters} />} />
+                    list={list} setList={setList} typeProp={'list'} fetchData={fetchData} fetchPosters={fetchPosters} />} />
             </Routes>
             <Footer />
         </HashRouter>
