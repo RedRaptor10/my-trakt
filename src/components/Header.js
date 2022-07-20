@@ -1,7 +1,46 @@
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import logo from '../assets/trakt-icon-red.svg';
+import searchIcon from '../assets/search-icon.svg';
 
-const Header = () => {
+const Header = ({setLoading, setUser, setErrorMsg, fetchData}) => {
+    const [input, setInput] = useState('');
+    const navigate = useNavigate();
+
+    const handleChange = event => {
+        setInput(event.target.value);
+    };
+
+    const submitSearch = event => {
+        if (event.keyCode === 13) {
+            event.preventDefault();
+
+            if (event.target.value === '') {
+                setUser();
+                setErrorMsg();
+                navigate('/');
+            } else {
+                fetchProfile();
+            }
+        }
+    }
+
+    const fetchProfile = async () => {
+        const query = input.toLowerCase().split(' ' ).join('-');
+        const data = await fetchData(query, 'profile');
+        if (data) {
+            setErrorMsg();
+            setUser(data);
+            navigate('/' + data.ids.slug);
+        } else {
+            setUser();
+            setErrorMsg('User not found.');
+            navigate('/');
+        }
+
+        setLoading();
+    };
+
     return (
         <header className="header">
             <div className="header-title">
@@ -10,13 +49,10 @@ const Header = () => {
                     My Trakt
                 </Link>
             </div>
-            <div className="header-nav-container">
-                <nav className="header-nav">
-                    <div className="header-nav-movies"><Link to="/movies">Movies</Link></div>
-                    <div className="header-nav-shows"><Link to="/shows">Shows</Link></div>
-                    <div className="header-nav-lists"><Link to="/lists">Lists</Link></div>
-                </nav>
-            </div>
+            <form className="search-box" action="">
+                <img className="search-icon" src={searchIcon} alt=""></img>
+                <input id="search-input" className="search-input" type="text" placeholder="Enter username or id" value={input} onChange={handleChange} onKeyDown={submitSearch}></input>
+            </form>
         </header>
     )
 };
