@@ -4,12 +4,9 @@ import Items from './Items';
 import Lists from './Lists';
 import { sortResults } from '../helpers/sort';
 
-const User = ({loading, setLoading, user, setUser, errorMsg, setErrorMsg, fetchData, fetchPosters}) => {
+const User = ({loading, setLoading, user, setUser, collection, setCollection, lists, setLists, list, setList, errorMsg, setErrorMsg, fetchData, fetchPosters}) => {
     const { username, type, listId } = useParams();
     const [searchParams] = useSearchParams();
-    const [collection, setCollection] = useState();
-    const [lists, setLists] = useState();
-    const [list, setList] = useState();
     const [items, setItems] = useState();
     const [posters, setPosters] = useState();
     const [results, setResults] = useState();
@@ -104,7 +101,7 @@ const User = ({loading, setLoading, user, setUser, errorMsg, setErrorMsg, fetchD
                 .then(setLoading);
             }
         }
-    }, [setLoading, username, collection, results, type, page, resetData, fetchData, fetchPostersData]);
+    }, [setLoading, username, collection, setCollection, results, type, page, resetData, fetchData, fetchPostersData]);
 
     // Fetch List
     useEffect(() => {
@@ -138,7 +135,7 @@ const User = ({loading, setLoading, user, setUser, errorMsg, setErrorMsg, fetchD
                 .then(setLoading);
             }
         }
-    }, [setLoading, username, list, listId, results, type, page, resetData, fetchData, fetchPostersData]);
+    }, [setLoading, username, list, setList, listId, results, type, page, resetData, fetchData, fetchPostersData]);
 
     // Fetch Lists
     useEffect(() => {
@@ -151,7 +148,7 @@ const User = ({loading, setLoading, user, setUser, errorMsg, setErrorMsg, fetchD
             fetchLists()
             .then(setLoading);
         }
-    }, [setLoading, username, lists, listId, type, fetchData]);
+    }, [setLoading, username, lists, setLists, listId, type, fetchData]);
 
     return (
         <main className="user">
