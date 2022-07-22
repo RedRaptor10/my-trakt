@@ -1,38 +1,10 @@
-import { useState, useEffect } from 'react';
-import { useParams, useSearchParams } from 'react-router-dom';
+import { useState } from 'react';
 import Search from './Search';
 import Pagination from './Pagination';
-import { sortResults } from '../helpers/sort';
 import logo from '../assets/trakt-icon-red.svg';
 
-const Items = ({loading, setLoading, collection, setCollection, list, setList, typeProp, fetchData, fetchPosters}) => {
-  const { listId } = useParams();
-  const [searchParams] = useSearchParams();
+const Items = ({collection, list, type, page, setPage, items, results, posters, setResults, limit, setLimit, limitDefault, setLimitFromParams, view, setView}) => {
   const [input, setInput] = useState('');
-  const [results, setResults] = useState();
-  const [items, setItems] = useState();
-  const [posters, setPosters] = useState();
-  const [type, setType] = useState(typeProp);
-  const [page, setPage] = useState(1);
-  const [view, setView] = useState(searchParams.has('view') ? searchParams.get('view') : 'grid');
-  const limitDefault = 25;
-
-  const setLimitFromParams = () => {
-    // Only set limit if view is list
-    if (searchParams.has('limit') && (searchParams.get('view') === 'list' || view === 'list')) {
-      // If limit is 0, display entire collection
-      if (searchParams.get('limit') === '0') {
-        setPage(1);
-        return 99999999;
-      } else {
-        return searchParams.get('limit');
-      }
-    }
-
-    return limitDefault;
-  };
-
-  const [limit, setLimit] = useState(setLimitFromParams);
 
   const changeView = newView => {
     if (view === 'grid' && newView === 'list') {
@@ -44,119 +16,16 @@ const Items = ({loading, setLoading, collection, setCollection, list, setList, t
     }
   };
 
-  // Add active class and toggles to header links on mount
-  useEffect(() => {
-    const headerMovies = document.querySelector('.header-nav-movies');
-    const headerShows = document.querySelector('.header-nav-shows');
-
-    if (type === 'movies') { headerMovies.classList.add('header-active') }
-    else if (type === 'shows') { headerShows.classList.add('header-active') }
-
-    const toggleType = t => {
-      if (collection && collection.hasOwnProperty(t)) {
-        setResults(collection[t]);
-      }
-      setInput('');
-      setPage(1);
-      setType(t);
-      setItems();
-    };
-
-    headerMovies.onclick = () => { toggleType('movies') };
-    headerShows.onclick = () => { toggleType('shows') };
-
-    // Remove active class and onclick on unmount
-    return () => {
-      headerMovies.classList.remove('header-active');
-      headerShows.classList.remove('header-active');
-      headerMovies.onclick = '';
-      headerShows.onclick = '';
-    };
-  }, [collection, type]);
-
-  useEffect(() => {
-    // Reset display items and posters
-    setItems();
-    setPosters();
-
-    // Fetch collection
-    if (type !== 'list' &&
-      (!collection || (type === 'movies' && !collection.hasOwnProperty('movies')) || (type === 'shows' && !collection.hasOwnProperty('shows')))) {
-      const fetchCollection = async () => {
-        let c = await fetchData('collection', type);
-
-        setCollection({
-          ...collection,
-          [type]: c
-        });
-
-        // Sort results by title
-        sortResults(c, type);
-        setResults(c);
-      };
-
-      fetchCollection();
-    }
-    // Fetch list
-    else if (type === 'list' && (!list || list.ids.slug !== listId)) {
-      const fetchList = async () => {
-        const l = await fetchData('list', null, listId);
-        const li = await fetchData('list-items', null, listId);
-
-        setList({
-          ...l,
-          items: li
-        });
-
-        // Sort results by title
-        sortResults(li, type);
-        setResults(li);
-      };
-
-      fetchList();
-    }
-    // If there is a collection or list but there are no results, set results again (ie. revisiting a page after already fetching data)
-    else if (!results) {
-      const r = type === 'list' ? list.items.slice() : collection[type]; // Copy list array to prevent modification after sort
-
-      sortResults(r, type);
-      setResults(r);
-    }
-    // Set display items and fetch posters
-    else {
-      const fetchPostersData = async () => {
-        // Set display items to limit
-        const i = results.slice(limit * (page - 1), limit * page);
-        setItems(i);
-
-        if (view === 'grid' && i.length > 0) {
-          const p = await fetchPosters(i, type);
-          setPosters(p);
-        }
-
-        setLoading(false);
-      };
-
-      fetchPostersData();
-    }
-
-  }, [setLoading, collection, setCollection, list, setList, results, type, listId, page, limit, view, fetchData, fetchPosters]);
-
   return (
     <main className="items">
-      {loading ?
-      <div className="spinner-container">
-        <div className="loading-spinner"></div>
-      </div>
-      :
-      items ?
+      {items ?
       <div>
-        <Search input={input} setInput={setInput} collection={collection} list={list} setResults={setResults} type={type} listId={listId} setPage={setPage} />
+        <Search input={input} setInput={setInput} collection={collection} list={list} setResults={setResults} type={type} setPage={setPage} />
         <Pagination results={results} type={type} page={page} setPage={setPage} limit={limit} view={view} changeView={changeView} />
         <h1>
           {type === 'movies' ? 'Movies'
           : type === 'shows' ? 'Shows'
-          : type === 'list' ? 'List - ' + list.name
+          : type === 'lists' ? 'List - ' + list.name
           : null}
         </h1>
         <div className={view === 'grid' ? 'items-grid' : 'items-list'}>
@@ -172,7 +41,7 @@ const Items = ({loading, setLoading, collection, setCollection, list, setList, t
                 imdb = item.show.ids.imdb;
                 title = item.show.title;
                 year = item.show.year;
-              } else if (type === 'list') {
+              } else if (type === 'lists') {
                 imdb = item[item.type].ids.imdb;
                 title = item[item.type].title;
                 year = item[item.type].year;
