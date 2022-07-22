@@ -31,6 +31,7 @@ const Header = ({setLoading, setUser, setErrorMsg, fetchData}) => {
         if (data) {
             setErrorMsg();
             setUser(data);
+            setInput('');
             navigate('/' + data.ids.slug);
         } else {
             setUser();
