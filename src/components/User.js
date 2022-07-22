@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useParams, useSearchParams, Link } from 'react-router-dom';
+import UserHeader from './UserHeader';
 import Items from './Items';
 import Lists from './Lists';
 import { sortResults } from '../helpers/sort';
@@ -50,25 +51,26 @@ const User = ({loading, setLoading, user, setUser, collection, setCollection, li
     }, [limit, page, view, type, fetchPosters]);
 
     useEffect(() => {
-        if (!user) {
+        if (type === 'profile' && !user) {
             const fetchUser = async () => {
                 const data = await fetchData(username, 'profile');
 
                 if (data) {
                     setErrorMsg();
                     setUser(data);
+                    setCollection();
+                    setLists();
+                    setList();
                 } else {
                     setUser();
                     setErrorMsg('User not found.');
                 }
-
-                setLoading();
             }
 
             fetchUser()
             .then(setLoading);
         }
-    }, [setLoading, user, username, fetchData, setUser, setErrorMsg]);
+    }, [setLoading, user, username, type, fetchData, setUser, setCollection, setLists, setList, setErrorMsg]);
 
     // Fetch Collection
     useEffect(() => {
@@ -160,14 +162,7 @@ const User = ({loading, setLoading, user, setUser, collection, setCollection, li
             <div>
                 {user ?
                     <div>
-                        <div>{user.username}</div>
-                        <div>
-                            <nav>
-                                <div><Link to={'/' + username + '/movies'} onClick={resetData}>Movies</Link></div>
-                                <div><Link to={'/' + username + '/shows'} onClick={resetData}>Shows</Link></div>
-                                <div><Link to={'/' + username + '/lists'} onClick={resetData}>Lists</Link></div>
-                            </nav>
-                        </div>
+                        <UserHeader user={user} resetData={resetData} />
                         { (type === 'movies' || type === 'shows' || (type === 'lists' && listId)) && items ?
                             <Items collection={collection} list={list} type={type} page={page} setPage={setPage} items={items} results={results}
                                 setResults={setResults} limit={limit} setLimit={setLimit} limitDefault={limitDefault} setLimitFromParams={setLimitFromParams}
