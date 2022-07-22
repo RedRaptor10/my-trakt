@@ -1,32 +1,18 @@
-import { useEffect } from 'react';
+import { useParams} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-const Lists = ({loading, setLoading, lists, setLists, fetchData}) => {
-    useEffect(() => {
-        if (!lists) {
-            const fetchLists = async () => {
-                const l = await fetchData('lists');
-
-                setLists(l);
-            };
-
-            fetchLists();
-        } else {
-            setLoading(false);
-        }
-    }, [setLoading, lists, setLists, fetchData]);
+const Lists = ({lists}) => {
+    const { username } = useParams();
 
     return (
         <main className="lists">
-            {loading ?
-            <div className="spinner-container">
-            <div className="loading-spinner"></div>
-            </div>
-            :
-            lists ?
+            {lists && lists.length > 0 ?
             <div className="lists-list">
                 {lists.map(list => {
                     return (
-                        <div key={list.ids.trakt}>{list.name}</div>
+                        <div key={list.ids.trakt}>
+                            <Link to={'/' + username + '/lists/' + list.ids.slug}>{list.name}</Link>
+                        </div>
                     );
                 })}
             </div>
