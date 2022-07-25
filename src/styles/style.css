@@ -90,6 +90,10 @@ footer a:hover {
 }
 
 /* Home */
+main {
+    min-height: 80vh;
+}
+
 .home-items-container {
     display: flex;
     padding: 0 64px 32px 64px;
@@ -204,10 +208,17 @@ footer a:hover {
     align-items: center;
     background: var(--primaryColor);
     width: 25%;
-    margin: 0 auto;
-    padding: 8px 0 8px 8px;
+    padding: 8px 16px;
     border-radius: 8px;
     box-sizing: border-box;
+}
+
+header .search-box {
+    margin-left: 32px;
+}
+
+.items .search-box {
+    margin: 0 auto;
 }
 
 .search-icon {
@@ -227,6 +238,50 @@ footer a:hover {
 
 .search-input:focus {
     outline: none;
+}
+
+/* User Header */
+.user-header {
+    padding: 64px 128px 0 128px;
+}
+
+.user-header-top {
+    display: flex;
+    align-items: center;
+}
+
+.user-header .avatar {
+    width: 128px;
+    height: 128px;
+    border-radius: 50%;
+}
+
+.user-header-top span {
+    margin-left: 32px;
+    font-size: 48px;
+    font-weight: bold;
+}
+
+.user-header nav {
+    display: flex;
+    justify-content: center;
+    padding-top: 32px;
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.user-header nav div {
+    width: 192px;
+    padding: 16px 0;
+    text-align: center;
+}
+
+.user-header-active {
+    border-bottom: 4px solid rgb(64, 64, 64);
+}
+
+.user-header-active a {
+    color: #fff;
 }
 
 /* Pagination */
@@ -282,6 +337,14 @@ footer a:hover {
 
 /* Items - Grid View */
 .items {
+    background: rgb(8, 8, 8);
+}
+
+.items h1 {
+    margin: 0 64px;
+}
+
+.items-grid {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
@@ -452,7 +515,7 @@ footer a:hover {
     }
 
     /* Items - Grid View */
-    .items {
+    .items-grid {
         gap: 24px;
     }
 

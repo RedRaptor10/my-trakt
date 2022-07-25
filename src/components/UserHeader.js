@@ -1,15 +1,19 @@
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 const UserHeader = ({user, resetData}) => {
+    const { type } = useParams();
+
     return (
         <div className="user-header">
-            {user.username}
-            <img className="avatar" src={user.images.avatar.full} alt="" referrerpolicy="no-referrer" />
+            <div className="user-header-top">
+                <img className="avatar" src={user.images.avatar.full} alt="" referrerPolicy="no-referrer" />
+                <span>{user.username}</span>
+            </div>
             <nav>
-                <div><Link to={'/' + user.username} onClick={resetData}>Profile</Link></div>
-                <div><Link to={'/' + user.username + '/movies'} onClick={resetData}>Movies</Link></div>
-                <div><Link to={'/' + user.username + '/shows'} onClick={resetData}>Shows</Link></div>
-                <div><Link to={'/' + user.username + '/lists'} onClick={resetData}>Lists</Link></div>
+                <div className={!type ? 'user-header-active' : null}><Link to={'/' + user.username} onClick={resetData}>Profile</Link></div>
+                <div className={type === 'movies' ? 'user-header-active' : null}><Link to={'/' + user.username + '/movies'} onClick={resetData}>Movies</Link></div>
+                <div className={type === 'shows' ? 'user-header-active' : null}><Link to={'/' + user.username + '/shows'} onClick={resetData}>Shows</Link></div>
+                <div className={type === 'lists' ? 'user-header-active' : null}><Link to={'/' + user.username + '/lists'} onClick={resetData}>Lists</Link></div>
             </nav>
         </div>
     );
