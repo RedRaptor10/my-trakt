@@ -154,28 +154,26 @@ const User = ({loading, setLoading, user, setUser, collection, setCollection, li
 
     return (
         <main className="user">
-            {loading ?
-            <div className="spinner-container">
-                <div className="loading-spinner"></div>
-            </div>
-            :
-            <div>
-                {user ?
-                    <div>
-                        <UserHeader user={user} resetData={resetData} />
-                        { (type === 'movies' || type === 'shows' || (type === 'lists' && listId)) && items ?
+            {user ?
+                <div>
+                    <UserHeader user={user} resetData={resetData} />
+                    {loading ?
+                        <div className="spinner-container">
+                            <div className="loading-spinner"></div>
+                        </div>
+                    :
+                        (type === 'movies' || type === 'shows' || (type === 'lists' && listId)) && items ?
                             <Items collection={collection} list={list} type={type} page={page} setPage={setPage} items={items} results={results}
                                 setResults={setResults} limit={limit} setLimit={setLimit} limitDefault={limitDefault} setLimitFromParams={setLimitFromParams}
                                 view={view} setView={setView} posters={posters} />
                         : type === 'lists' && !listId ?
                             <Lists lists={lists} />
                         : null}
-                    </div>
-                : null}
-                {errorMsg ?
-                    <div>{errorMsg}</div>
-                : null}
-            </div>}
+                </div>
+            : null}
+            {errorMsg ?
+                <div>{errorMsg}</div>
+            : null}
         </main>
     );
 };
