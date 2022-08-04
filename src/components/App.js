@@ -15,10 +15,6 @@ const api_key = process.env.REACT_APP_API_KEY; // TMDB auth
 
 const App = () => {
     const [loading, setLoading] = useState(false);
-    const [user, setUser] = useState();
-    const [collection, setCollection] = useState();
-    const [lists, setLists] = useState();
-    const [list, setList] = useState();
     const [errorMsg, setErrorMsg] = useState();
 
     // Note: A limitation to the Trakt API is it cannot return a subset of results.
@@ -28,7 +24,7 @@ const App = () => {
 
         let protocol = '';
         if (resource === 'profile') {
-            protocol = '/users/' + userId;
+            protocol = '/users/' + userId + '?extended=full';
         } else if (resource === 'collection' && type) {
             protocol = '/users/' + userId + '/collection/' + type;
         } else if (resource === 'lists') {
@@ -109,17 +105,15 @@ const App = () => {
 
     return (
         <HashRouter>
-            <Header setLoading={setLoading} setUser={setUser} setCollection={setCollection} setLists={setLists} setList={setList} setErrorMsg={setErrorMsg}
-                fetchData={fetchData} />
+            <Header setLoading={setLoading} setErrorMsg={setErrorMsg} fetchData={fetchData} />
             <Routes>
                 <Route exact path="/" element={<Home errorMsg={errorMsg} />} />
-                <Route exact path="/:username" element={<User loading={loading} setLoading={setLoading} user={user} setUser={setUser} errorMsg={errorMsg}
+                <Route exact path="/:username" element={<User loading={loading} setLoading={setLoading} errorMsg={errorMsg}
                     setErrorMsg={setErrorMsg} fetchData={fetchData} />} />
-                <Route exact path="/:username/:type" element={<User loading={loading} setLoading={setLoading} user={user} setUser={setUser}
-                    collection={collection} setCollection={setCollection} lists={lists} setLists={setLists} errorMsg={errorMsg}
+                <Route exact path="/:username/:type" element={<User loading={loading} setLoading={setLoading} errorMsg={errorMsg}
                     setErrorMsg={setErrorMsg} fetchData={fetchData} fetchPosters={fetchPosters} />} />
-                <Route path="/:username/:type/:listId" element={<User loading={loading} setLoading={setLoading} user={user} setUser={setUser}
-                    list={list} setList={setList} errorMsg={errorMsg} setErrorMsg={setErrorMsg} fetchData={fetchData} fetchPosters={fetchPosters} />} />
+                <Route path="/:username/:type/:listId" element={<User loading={loading} setLoading={setLoading}
+                    errorMsg={errorMsg} setErrorMsg={setErrorMsg} fetchData={fetchData} fetchPosters={fetchPosters} />} />
             </Routes>
             <Footer />
         </HashRouter>
