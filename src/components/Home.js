@@ -9,7 +9,7 @@ const Home = () => {
                 <b>My Trakt</b> is a web app that displays a user's favorite movies and shows.<br />
                 Enter a Trakt username or id in the search bar to view a user's profile.
             </div>
-            <Link to="/redraptor10"><button>PROFILE EXAMPLE</button></Link>
+            <Link to="/redraptor10"><button className="btn">PROFILE EXAMPLE</button></Link>
         </main>
     );
 };

@@ -21,6 +21,21 @@ a:hover {
     color: #fff;
 }
 
+.btn {
+    background: rgb(183, 15, 21);
+    padding: 8px 16px;
+    border: 0;
+    color: var(--color);
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.btn:hover {
+    background: rgb(158, 13, 18);
+}
+
 /* Header */
 header {
     display: flex;
@@ -112,19 +127,7 @@ main {
 }
 
 .home button {
-    background: rgb(183, 15, 21);
     margin: 0 auto;
-    padding: 8px 16px;
-    border: 0;
-    color: var(--color);
-    font-size: 24px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.2s ease;
-}
-
-.home button:hover {
-    background: rgb(158, 13, 18);
 }
 
 /* Loading Spinner */
@@ -253,7 +256,7 @@ header .search-box {
 }
 
 .profile div {
-    margin-bottom: 8px;
+    margin-bottom: 16px;
     font-size: 24px;
 }
 
@@ -265,8 +268,12 @@ header .search-box {
     margin-right: 8px;
 }
 
-.profile div:last-child div {
-    margin-top: 8px;
+.profile div:nth-last-child(2) div {
+    margin-top: 16px;
+}
+
+.profile button {
+    margin-top: 32px;
 }
 
 /* Pagination */

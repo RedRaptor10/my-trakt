@@ -21,6 +21,7 @@ const Profile = ({user}) => {
             <div><label>About:</label>
                 <div>{user.about ? user.about : null}</div>
             </div>
+            <a href={'https://trakt.tv/users/' + user.ids.slug} target="_blank" rel="noreferrer"><button className="btn">VISIT TRAKT PROFILE</button></a>
         </div>
     );
 };
