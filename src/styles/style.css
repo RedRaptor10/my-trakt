@@ -94,81 +94,37 @@ main {
     min-height: 80vh;
 }
 
-.home-items-container {
-    display: flex;
-    padding: 0 64px 32px 64px;
-}
-
-.home-items {
-    width: 50%;
-    padding: 0 32px;
-    box-sizing: border-box;
-}
-
-.home-items-header {
-    padding: 16px 0;
-    font-size: 32px;
+.home {
+    padding: 128px 0;
     text-align: center;
 }
 
-.home-items-row {
-    display: flex;
-    align-items: center;
-    margin-bottom: 16px;
+.home img {
+    width: 128px;
+    height: auto;
 }
 
-.home-item-rank {
-    font-size: 64px;
-    padding: 0 32px;
+.home div {
+    margin: 32px 0;
+    text-align: center;
+    font-size: 24px;
+    line-height: 36px;
 }
 
-.home-item {
-    display: flex;
-}
-
-.home-item-poster-container {
-    min-width: 100px;
-    height: 150px;
-}
-
-.home-item-poster {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 1;
+.home button {
+    background: rgb(183, 15, 21);
+    margin: 0 auto;
+    padding: 8px 16px;
+    border: 0;
+    color: var(--color);
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
     transition: 0.2s ease;
 }
 
-.home-item-poster-container:hover .home-item-poster {
-    opacity: 0.5;
-}
-
-.home-item-poster-empty {
-    object-fit: contain;
-}
-
-.home-item-info {
-    padding: 0 32px;
-}
-
-.home-item-title {
-    font-size: 32px;
-    font-weight: bold;
-}
-
-.home-item-year {
-    margin-top: 16px;
-    font-size: 24px;
-}
-
-.home-view-all-btn {
-    text-align: center;
-}
-
-.home-view-all-btn a {
-    display: inline-block;
-    padding: 16px 64px;
-    font-size: 24px;
+.home button:hover {
+    background: rgb(158, 13, 18);
 }
 
 /* Loading Spinner */
@@ -240,6 +196,12 @@ header .search-box {
     outline: none;
 }
 
+.no-results {
+    padding: 32px 0;
+    text-align: center;
+    font-size: 20px;
+}
+
 /* User Header */
 .user-header {
     padding: 64px 128px 0 128px;
@@ -282,6 +244,29 @@ header .search-box {
 
 .user-header-active a {
     color: #fff;
+}
+
+/* Profile */
+.profile {
+    background: rgb(8, 8, 8);
+    padding: 64px 128px;
+}
+
+.profile div {
+    margin-bottom: 8px;
+    font-size: 24px;
+}
+
+.profile label {
+    font-weight: bold;
+}
+
+.profile div:not(:last-child) label {
+    margin-right: 8px;
+}
+
+.profile div:last-child div {
+    margin-top: 8px;
 }
 
 /* Pagination */
@@ -408,6 +393,12 @@ header .search-box {
     border-bottom: 1px solid rgb(64, 64, 64);
 }
 
+/* Lists */
+.lists {
+    background: rgb(8, 8, 8);
+    padding: 64px 128px;
+}
+
 /* Mobile */
 @media screen and (max-width: 1000px) {
     /* Header */
@@ -446,56 +437,6 @@ header .search-box {
     footer {
         font-size: 12px;
         text-align: center;
-    }
-
-    /* Home */
-    .home-items-container {
-        padding: 0;
-    }
-
-    .home-items {
-        padding: 0;
-    }
-
-    .home-items-header {
-        font-size: 16px;
-    }
-
-    .home-item-rank {
-        padding: 0 16px;
-        font-size: 24px;
-    }
-
-    .home-item {
-        display: unset;
-        height: 100%;
-        padding-right: 16px;
-    }
-
-    .home-item-poster-container {
-        display: inline-block;
-        height: 100%;
-    }
-
-    .home-item-info {
-        padding: 8px 0;
-    }
-
-    .home-item-title {
-        font-size: 16px;
-        text-align: center;
-    }
-
-    .home-item-year {
-        margin-top: 8px;
-        font-size: 12px;
-        text-align: center;
-    }
-
-    .home-view-all-btn a {
-        margin-left: 29px;
-        padding: 16px;
-        font-size: 16px;
     }
 
     /* Search Box */
