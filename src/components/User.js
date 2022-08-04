@@ -5,9 +5,13 @@ import Items from './Items';
 import Lists from './Lists';
 import { sortResults } from '../helpers/sort';
 
-const User = ({loading, setLoading, user, setUser, collection, setCollection, lists, setLists, list, setList, errorMsg, setErrorMsg, fetchData, fetchPosters}) => {
+const User = ({loading, setLoading, errorMsg, setErrorMsg, fetchData, fetchPosters}) => {
     const { username, type, listId } = useParams();
     const [searchParams] = useSearchParams();
+    const [user, setUser] = useState();
+    const [collection, setCollection] = useState();
+    const [lists, setLists] = useState();
+    const [list, setList] = useState();
     const [items, setItems] = useState();
     const [posters, setPosters] = useState();
     const [results, setResults] = useState();
@@ -50,27 +54,29 @@ const User = ({loading, setLoading, user, setUser, collection, setCollection, li
         }
     }, [limit, page, view, type, fetchPosters]);
 
+    // Fetch User
     useEffect(() => {
-        if (type === 'profile' && !user) {
-            const fetchUser = async () => {
-                const data = await fetchData(username, 'profile');
+        const fetchUser = async () => {
+            const data = await fetchData(username, 'profile');
 
-                if (data) {
-                    setErrorMsg();
-                    setUser(data);
-                    setCollection();
-                    setLists();
-                    setList();
-                } else {
-                    setUser();
-                    setErrorMsg('User not found.');
-                }
+            if (data) {
+                setUser(data);
+                setErrorMsg();
+            } else {
+                setUser();
+                setErrorMsg('User not found.');
             }
 
-            fetchUser()
-            .then(setLoading);
+            // Reset data
+            setCollection();
+            setLists();
+            setList();
+            resetData();
         }
-    }, [setLoading, user, username, type, fetchData, setUser, setCollection, setLists, setList, setErrorMsg]);
+
+        fetchUser()
+        .then(setLoading);
+    }, [setLoading, username, fetchData, setUser, setErrorMsg, resetData]);
 
     // Fetch Collection
     useEffect(() => {
