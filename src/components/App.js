@@ -15,7 +15,6 @@ const api_key = process.env.REACT_APP_API_KEY; // TMDB auth
 
 const App = () => {
     const [loading, setLoading] = useState();
-    const [errorMsg, setErrorMsg] = useState();
 
     // Note: A limitation to the Trakt API is it cannot return a subset of results.
     // We must fetch the entire collection and set it as a state.
@@ -108,12 +107,9 @@ const App = () => {
             <Header />
             <Routes>
                 <Route exact path="/" element={<Home />} />
-                <Route exact path="/:username" element={<User loading={loading} setLoading={setLoading} errorMsg={errorMsg} setErrorMsg={setErrorMsg}
-                    fetchData={fetchData} />} />
-                <Route exact path="/:username/:type" element={<User loading={loading} setLoading={setLoading} errorMsg={errorMsg} setErrorMsg={setErrorMsg}
-                    fetchData={fetchData} fetchPosters={fetchPosters} />} />
-                <Route path="/:username/:type/:listId" element={<User loading={loading} setLoading={setLoading} errorMsg={errorMsg} setErrorMsg={setErrorMsg}
-                    fetchData={fetchData} fetchPosters={fetchPosters} />} />
+                <Route exact path="/:username" element={<User loading={loading} setLoading={setLoading} fetchData={fetchData} />} />
+                <Route exact path="/:username/:type" element={<User loading={loading} setLoading={setLoading} fetchData={fetchData} fetchPosters={fetchPosters} />} />
+                <Route path="/:username/:type/:listId" element={<User loading={loading} setLoading={setLoading} fetchData={fetchData} fetchPosters={fetchPosters} />} />
             </Routes>
             <Footer />
         </HashRouter>

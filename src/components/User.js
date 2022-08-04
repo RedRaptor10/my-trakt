@@ -1,11 +1,12 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useParams, useSearchParams, Link } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import UserHeader from './UserHeader';
+import Profile from './Profile';
 import Items from './Items';
 import Lists from './Lists';
 import { sortResults } from '../helpers/sort';
 
-const User = ({loading, setLoading, errorMsg, setErrorMsg, fetchData, fetchPosters}) => {
+const User = ({loading, setLoading, fetchData, fetchPosters}) => {
     const { username, type, listId } = useParams();
     const [searchParams] = useSearchParams();
     const [user, setUser] = useState();
@@ -61,10 +62,8 @@ const User = ({loading, setLoading, errorMsg, setErrorMsg, fetchData, fetchPoste
 
             if (data) {
                 setUser(data);
-                setErrorMsg();
             } else {
                 setUser();
-                setErrorMsg('User not found.');
             }
 
             // Reset data
@@ -76,7 +75,7 @@ const User = ({loading, setLoading, errorMsg, setErrorMsg, fetchData, fetchPoste
 
         fetchUser()
         .then(setLoading);
-    }, [setLoading, username, fetchData, setUser, setErrorMsg, resetData]);
+    }, [setLoading, username, fetchData, setUser, resetData]);
 
     // Fetch Collection
     useEffect(() => {
@@ -168,6 +167,9 @@ const User = ({loading, setLoading, errorMsg, setErrorMsg, fetchData, fetchPoste
                             <div className="loading-spinner"></div>
                         </div>
                     :
+                        !type ?
+                            <Profile user={user} />
+                        :
                         (type === 'movies' || type === 'shows' || (type === 'lists' && listId)) && items ?
                             <Items collection={collection} list={list} type={type} page={page} setPage={setPage} items={items} results={results}
                                 setResults={setResults} limit={limit} setLimit={setLimit} limitDefault={limitDefault} setLimitFromParams={setLimitFromParams}
@@ -176,10 +178,7 @@ const User = ({loading, setLoading, errorMsg, setErrorMsg, fetchData, fetchPoste
                             <Lists lists={lists} />
                         : null}
                 </div>
-            : null}
-            {errorMsg ?
-                <div>{errorMsg}</div>
-            : null}
+            : <div className="no-results">No Results</div>}
         </main>
     );
 };
