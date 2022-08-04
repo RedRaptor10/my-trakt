@@ -11,10 +11,10 @@ const UserHeader = ({user, resetData}) => {
                 <span>{user.username}</span>
             </div>
             <nav>
-                <div className={!type ? 'user-header-active' : null}><Link to={'/' + user.username} onClick={resetData}>Profile</Link></div>
-                <div className={type === 'movies' ? 'user-header-active' : null}><Link to={'/' + user.username + '/movies'} onClick={resetData}>Movies</Link></div>
-                <div className={type === 'shows' ? 'user-header-active' : null}><Link to={'/' + user.username + '/shows'} onClick={resetData}>Shows</Link></div>
-                <div className={type === 'lists' ? 'user-header-active' : null}><Link to={'/' + user.username + '/lists'} onClick={resetData}>Lists</Link></div>
+                <div className={!type ? 'user-header-active' : null}><Link to={'/' + user.ids.slug} onClick={resetData}>Profile</Link></div>
+                <div className={type === 'movies' ? 'user-header-active' : null}><Link to={'/' + user.ids.slug + '/movies'} onClick={resetData}>Movies</Link></div>
+                <div className={type === 'shows' ? 'user-header-active' : null}><Link to={'/' + user.ids.slug + '/shows'} onClick={resetData}>Shows</Link></div>
+                <div className={type === 'lists' ? 'user-header-active' : null}><Link to={'/' + user.ids.slug + '/lists'} onClick={resetData}>Lists</Link></div>
             </nav>
         </div>
     );
