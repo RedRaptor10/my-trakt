@@ -18,6 +18,7 @@ const User = ({loading, setLoading, fetchData, fetchPosters}) => {
     const [results, setResults] = useState();
     const [page, setPage] = useState(1);
     const [view, setView] = useState(searchParams.has('view') ? searchParams.get('view') : 'grid');
+    const [foundUser, setFoundUser] = useState();
     const limitDefault = 25;
 
     const setLimitFromParams = () => {
@@ -62,8 +63,10 @@ const User = ({loading, setLoading, fetchData, fetchPosters}) => {
 
             if (data) {
                 setUser(data);
+                setFoundUser(true);
             } else {
                 setUser();
+                setFoundUser(false);
             }
 
             // Reset data
@@ -178,7 +181,8 @@ const User = ({loading, setLoading, fetchData, fetchPosters}) => {
                             <Lists lists={lists} />
                         : null}
                 </div>
-            : <div className="no-results">No Results</div>}
+            : null}
+            {foundUser === false ? <div className="no-results">User Not Found</div> : null}
         </main>
     );
 };
