@@ -1,4 +1,5 @@
 import { Link, useParams } from 'react-router-dom';
+import logo from '../assets/trakt-icon-red.svg';
 
 const UserHeader = ({user, resetData}) => {
     const { type } = useParams();
@@ -6,7 +7,7 @@ const UserHeader = ({user, resetData}) => {
     return (
         <div className="user-header">
             <div className="user-header-top">
-                <img className="avatar" src={user.images.avatar.full} alt="" referrerPolicy="no-referrer" />
+                <img className="avatar" src={user.images ? user.images.avatar.full : logo} alt="" referrerPolicy="no-referrer" />
                 <span>{user.username}</span>
             </div>
             <nav>
