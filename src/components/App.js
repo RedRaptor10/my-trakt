@@ -14,7 +14,7 @@ const api_key = process.env.REACT_APP_API_KEY; // TMDB auth
 // JavaScript (CORS) Origins: https://redraptor10.github.io
 
 const App = () => {
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState();
     const [errorMsg, setErrorMsg] = useState();
 
     // Note: A limitation to the Trakt API is it cannot return a subset of results.
@@ -105,15 +105,15 @@ const App = () => {
 
     return (
         <HashRouter>
-            <Header setLoading={setLoading} setErrorMsg={setErrorMsg} fetchData={fetchData} />
+            <Header />
             <Routes>
-                <Route exact path="/" element={<Home errorMsg={errorMsg} />} />
-                <Route exact path="/:username" element={<User loading={loading} setLoading={setLoading} errorMsg={errorMsg}
-                    setErrorMsg={setErrorMsg} fetchData={fetchData} />} />
-                <Route exact path="/:username/:type" element={<User loading={loading} setLoading={setLoading} errorMsg={errorMsg}
-                    setErrorMsg={setErrorMsg} fetchData={fetchData} fetchPosters={fetchPosters} />} />
-                <Route path="/:username/:type/:listId" element={<User loading={loading} setLoading={setLoading}
-                    errorMsg={errorMsg} setErrorMsg={setErrorMsg} fetchData={fetchData} fetchPosters={fetchPosters} />} />
+                <Route exact path="/" element={<Home />} />
+                <Route exact path="/:username" element={<User loading={loading} setLoading={setLoading} errorMsg={errorMsg} setErrorMsg={setErrorMsg}
+                    fetchData={fetchData} />} />
+                <Route exact path="/:username/:type" element={<User loading={loading} setLoading={setLoading} errorMsg={errorMsg} setErrorMsg={setErrorMsg}
+                    fetchData={fetchData} fetchPosters={fetchPosters} />} />
+                <Route path="/:username/:type/:listId" element={<User loading={loading} setLoading={setLoading} errorMsg={errorMsg} setErrorMsg={setErrorMsg}
+                    fetchData={fetchData} fetchPosters={fetchPosters} />} />
             </Routes>
             <Footer />
         </HashRouter>
