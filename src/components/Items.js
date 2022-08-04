@@ -5,6 +5,7 @@ import logo from '../assets/trakt-icon-red.svg';
 
 const Items = ({collection, list, type, page, setPage, items, results, posters, setResults, limit, setLimit, limitDefault, setLimitFromParams, view, setView}) => {
   const [input, setInput] = useState('');
+  const totalPages = results.length > 0 ? Math.ceil(results.length / limit) : 1;
 
   const changeView = newView => {
     if (view === 'grid' && newView === 'list') {
@@ -22,6 +23,17 @@ const Items = ({collection, list, type, page, setPage, items, results, posters, 
       <div>
         <Search input={input} setInput={setInput} collection={collection} list={list} setResults={setResults} type={type} setPage={setPage} />
         <Pagination results={results} type={type} page={page} setPage={setPage} limit={limit} view={view} changeView={changeView} />
+        <div className="pagination-info">
+            <div>Page {page} / {totalPages}, Total: {results.length} {
+                type === 'movies' ? 'Movies' :
+                type === 'shows' ? 'Shows' :
+                type === 'list' ? 'Items' :
+                null}, View:&nbsp;
+            <span className={'view-type-btn' + (view === 'grid' ? ' view-type-btn-active' : '')} onClick={() => changeView('grid') }>Grid</span>
+            &nbsp;|&nbsp;
+            <span className={'view-type-btn' + (view === 'list' ? ' view-type-btn-active' : '')} onClick={() => changeView('list') }>List</span>
+            </div>
+        </div>
         <h1>
           {type === 'movies' ? 'Movies'
           : type === 'shows' ? 'Shows'
@@ -66,6 +78,7 @@ const Items = ({collection, list, type, page, setPage, items, results, posters, 
             <div>No Results</div>
           : null}
         </div>
+        <Pagination results={results} type={type} page={page} setPage={setPage} limit={limit} view={view} changeView={changeView} />
       </div>
       : null}
     </main>

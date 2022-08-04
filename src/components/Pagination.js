@@ -35,17 +35,6 @@ const Pagination = ({ results, type, page, setPage, limit, view, changeView }) =
             {page < totalPages ? <div className="pagination-nav-btn" onClick={() => { setPage(page + 1) }}>Next</div> : null}
             {page < totalPages ? <div className="pagination-nav-btn" onClick={() => { setPage(totalPages) }}>Last</div> : null}
         </div>
-        <div className="pagination-info">
-            <div>Page {page} / {totalPages}, Total: {results.length} {
-                type === 'movies' ? 'Movies' :
-                type === 'shows' ? 'Shows' :
-                type === 'list' ? 'Items' :
-                null}, View:&nbsp;
-            <span className={'view-type-btn' + (view === 'grid' ? ' view-type-btn-active' : '')} onClick={() => changeView('grid') }>Grid</span>
-            &nbsp;|&nbsp;
-            <span className={'view-type-btn' + (view === 'list' ? ' view-type-btn-active' : '')} onClick={() => changeView('list') }>List</span>
-            </div>
-        </div>
     </div>
     )
 };
