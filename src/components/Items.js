@@ -27,7 +27,7 @@ const Items = ({collection, list, type, page, setPage, items, results, posters, 
             <div>Page {page} / {totalPages}, Total: {results.length} {
                 type === 'movies' ? 'Movies' :
                 type === 'shows' ? 'Shows' :
-                type === 'list' ? 'Items' :
+                type === 'lists' ? 'Items' :
                 null}, View:&nbsp;
             <span className={'view-type-btn' + (view === 'grid' ? ' view-type-btn-active' : '')} onClick={() => changeView('grid') }>Grid</span>
             &nbsp;|&nbsp;
@@ -75,7 +75,7 @@ const Items = ({collection, list, type, page, setPage, items, results, posters, 
               )
             })
           : items.length === 0 ?
-            <div>No Results</div>
+            <div className="no-results">No Results</div>
           : null}
         </div>
         <Pagination results={results} type={type} page={page} setPage={setPage} limit={limit} view={view} changeView={changeView} />
