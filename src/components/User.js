@@ -162,7 +162,12 @@ const User = ({loading, setLoading, fetchData, fetchPosters}) => {
 
     return (
         <main className="user">
-            {user ?
+            {(!user || user.ids.slug !== username) && loading ?
+                <div className="spinner-container">
+                    <div className="loading-spinner"></div>
+                </div>
+            :
+            user ?
                 <div>
                     <UserHeader user={user} resetData={resetData} />
                     {loading ?
