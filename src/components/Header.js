@@ -3,14 +3,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import logo from '../assets/trakt-icon-red.svg';
 import searchIcon from '../assets/search-icon.svg';
 
-const Header = ({setLoading}) => {
+const Header = () => {
     const [input, setInput] = useState('');
     const navigate = useNavigate();
-
-    const fetchProfile = async () => {
-        const query = input.toLowerCase().split(' ').join('-');
-        navigate('/' + query);
-    };
 
     const handleChange = event => {
         setInput(event.target.value);
@@ -19,8 +14,10 @@ const Header = ({setLoading}) => {
     const submitSearch = event => {
         if (event.keyCode === 13) {
             event.preventDefault();
-            fetchProfile()
-            .then(setLoading);
+
+            const query = input.toLowerCase().split(' ').join('-');
+            navigate('/' + query);
+            setInput('');
         }
     }
 
