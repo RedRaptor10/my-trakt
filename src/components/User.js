@@ -14,6 +14,7 @@ const User = ({loading, setLoading, fetchData, fetchPosters}) => {
     const [lists, setLists] = useState();
     const [list, setList] = useState();
     const [items, setItems] = useState();
+    const [listItems, setListItems] = useState();
     const [posters, setPosters] = useState();
     const [results, setResults] = useState();
     const [page, setPage] = useState(1);
@@ -41,6 +42,7 @@ const User = ({loading, setLoading, fetchData, fetchPosters}) => {
     const resetData = useCallback(() => {
         setResults();
         setItems();
+        setListItems();
         setPosters();
         setPage(1);
     }, [setItems, setPosters, setResults, setPage]);
@@ -182,8 +184,8 @@ const User = ({loading, setLoading, fetchData, fetchPosters}) => {
                             <Items collection={collection} list={list} type={type} page={page} setPage={setPage} items={items} results={results}
                                 setResults={setResults} limit={limit} setLimit={setLimit} limitDefault={limitDefault} setLimitFromParams={setLimitFromParams}
                                 view={view} setView={setView} posters={posters} />
-                        : type === 'lists' && !listId ?
-                            <Lists lists={lists} />
+                        : type === 'lists' && lists && !listId ?
+                            <Lists setLoading={setLoading} lists={lists} listItems={listItems} setListItems={setListItems} fetchData={fetchData} fetchPosters={fetchPosters} />
                         : null}
                 </div>
             : null}
