@@ -10,6 +10,7 @@ const User = ({loading, setLoading, fetchData, fetchPosters}) => {
     const { username, type, listId } = useParams();
     const [searchParams] = useSearchParams();
     const [user, setUser] = useState();
+    const [favorites, setFavorites] = useState();
     const [collection, setCollection] = useState();
     const [lists, setLists] = useState();
     const [list, setList] = useState();
@@ -81,6 +82,34 @@ const User = ({loading, setLoading, fetchData, fetchPosters}) => {
         fetchUser()
         .then(setLoading);
     }, [setLoading, username, fetchData, setUser, resetData]);
+
+    // Fetch Favorites
+    useEffect(() => {
+        if (user && !type && !favorites) {
+            resetData();
+
+            const fetchFavorites = async () => {
+                const favMovies = await fetchData(username, 'recommendations', 'movies', null, 5);
+                const favShows = await fetchData(username, 'recommendations', 'shows', null, 5);
+                const pMovies = await fetchPosters(favMovies.slice(0, 5), 'movies');
+                const pShows = await fetchPosters(favShows.slice(0, 5), 'shows');
+
+                setFavorites({
+                    movies: {
+                        items: favMovies.slice(0, 5),
+                        posters: pMovies
+                    },
+                    shows: {
+                        items: favShows.slice(0, 5),
+                        posters: pShows
+                    }
+                });
+            };
+
+            fetchFavorites()
+            .then(setLoading);
+        }
+    }, [setLoading, user, type, favorites, setFavorites, username, limit, resetData, fetchData, fetchPosters]);
 
     // Fetch Collection
     useEffect(() => {
