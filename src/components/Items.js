@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Search from './Search';
 import Pagination from './Pagination';
-import logo from '../assets/trakt-icon-red.svg';
+import Item from './Item';
 
 const Items = ({collection, list, type, page, setPage, items, results, posters, setResults, limit, setLimit, limitDefault, setLimitFromParams, view, setView}) => {
     const [input, setInput] = useState('');
@@ -24,14 +24,15 @@ const Items = ({collection, list, type, page, setPage, items, results, posters, 
                 <Search input={input} setInput={setInput} collection={collection} list={list} setResults={setResults} type={type} setPage={setPage} />
                 <Pagination results={results} type={type} page={page} setPage={setPage} limit={limit} view={view} changeView={changeView} />
                 <div className="pagination-info">
-                        <div>Page {page} / {totalPages}, Total: {results.length} {
-                                type === 'movies' ? 'Movies' :
-                                type === 'shows' ? 'Shows' :
-                                type === 'lists' ? 'Items' :
-                                null}, View:&nbsp;
-                        <span className={'view-type-btn' + (view === 'grid' ? ' view-type-btn-active' : '')} onClick={() => changeView('grid') }>Grid</span>
-                        &nbsp;|&nbsp;
-                        <span className={'view-type-btn' + (view === 'list' ? ' view-type-btn-active' : '')} onClick={() => changeView('list') }>List</span>
+                        <div>
+							Page {page} / {totalPages}, Total: {results.length} {
+								type === 'movies' ? 'Movies' :
+								type === 'shows' ? 'Shows' :
+								type === 'lists' ? 'Items' :
+								null}, View:&nbsp;
+							<span className={'view-type-btn' + (view === 'grid' ? ' view-type-btn-active' : '')} onClick={() => changeView('grid') }>Grid</span>
+							&nbsp;|&nbsp;
+							<span className={'view-type-btn' + (view === 'list' ? ' view-type-btn-active' : '')} onClick={() => changeView('list') }>List</span>
                         </div>
                 </div>
                 <h1>
@@ -61,13 +62,7 @@ const Items = ({collection, list, type, page, setPage, items, results, posters, 
 
                             return (
                                 posters && view === 'grid' ?
-                                <a key={i} className="item" href={'https://www.imdb.com/title/' + imdb} target="_blank" rel="noreferrer">
-                                        {posters[i].poster ?
-                                            <img className="item-poster" src={'https://image.tmdb.org/t/p/w300_and_h450_bestv2' + posters[i].poster} alt={title}></img>
-                                        :
-                                            <img className="item-poster item-poster-empty" src={logo} alt=""></img>}
-                                    <div className="item-title"><span>{title}</span></div>
-                                </a>
+									<Item key={i} i={i} posters={posters} imdb={imdb} title={title} />
                                 :
                                 <a key={i} href={'https://www.imdb.com/title/' + imdb} target="_blank" rel="noreferrer">
                                     <div><span>{title} ({year})</span></div>

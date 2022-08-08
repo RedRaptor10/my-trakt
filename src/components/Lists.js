@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useParams} from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import logo from '../assets/trakt-icon-red.svg';
+import Item from './Item';
 
 const Lists = ({setLoading, lists, listItems, setListItems, fetchData, fetchPosters}) => {
     const { username } = useParams();
@@ -47,22 +47,15 @@ const Lists = ({setLoading, lists, listItems, setListItems, fetchData, fetchPost
                                     list.items.map((item, i) => {
                                         let imdb = item[item.type].ids.imdb;
                                         let title = item[item.type].title;
-                                        let year = item[item.type].year;
 
                                         return (
-                                            <a key={i} className="item" href={'https://www.imdb.com/title/' + imdb} target="_blank" rel="noreferrer">
-                                                {list.posters[i].poster ?
-                                                    <img className="item-poster" src={'https://image.tmdb.org/t/p/w300_and_h450_bestv2' + list.posters[i].poster} alt={title}></img>
-                                                :
-                                                    <img className="item-poster item-poster-empty" src={logo} alt=""></img>}
-                                                    <div className="item-title"><span>{title}</span></div>
-                                            </a>
+                                            <Item key={i} i={i} posters={list.posters} imdb={imdb} title={title} />
                                         );
                                     })
                                 : null}
                                 {list.items && list.items.length > 0 ?
                                     <div className="view-more-btn-container">
-                                        <Link to={'/' + username + '/lists/' + list.ids.slug}><button className="btn">View More</button></Link>
+                                        <Link to={'/' + username + '/lists/' + list.ids.slug}><button className="btn">View List</button></Link>
                                     </div>
                                 : null}
                             </div>
