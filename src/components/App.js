@@ -33,7 +33,7 @@ const App = () => {
         } else if (resource === 'list-items' && listId) {
             protocol = '/users/' + userId + '/lists/' + listId + '/items';
         } else if (resource === 'recommendations') {
-            protocol = '/users/redraptor10/recommendations/' + type + '?limit=' + limit;
+            protocol = '/users/' + userId + '/recommendations/' + type + '?limit=' + limit;
         }
 
         const options = {
