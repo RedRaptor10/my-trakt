@@ -73,14 +73,14 @@ const User = ({loading, setLoading, fetchData, fetchPosters}) => {
             }
 
             // Reset data
+            setFavorites();
             setCollection();
             setLists();
             setList();
             resetData();
         }
 
-        fetchUser()
-        .then(setLoading);
+        fetchUser();
     }, [setLoading, username, fetchData, setUser, resetData]);
 
     // Fetch Favorites
@@ -206,8 +206,8 @@ const User = ({loading, setLoading, fetchData, fetchPosters}) => {
                             <div className="loading-spinner"></div>
                         </div>
                     :
-                        !type ?
-                            <Profile user={user} />
+                        !type && favorites ?
+                            <Profile user={user} favorites={favorites} />
                         :
                         (type === 'movies' || type === 'shows' || (type === 'lists' && listId)) && items ?
                             <Items collection={collection} list={list} type={type} page={page} setPage={setPage} items={items} results={results}
