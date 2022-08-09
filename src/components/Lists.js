@@ -29,8 +29,6 @@ const Lists = ({setLoading, lists, listItems, setListItems, fetchData, fetchPost
 
             fetchListItems()
             .then(setLoading);
-        } else {
-            console.log(listItems);
         }
     }, [setLoading, username, lists, listItems, setListItems, fetchData, fetchPosters]);
 
@@ -42,20 +40,24 @@ const Lists = ({setLoading, lists, listItems, setListItems, fetchData, fetchPost
                         <div key={list.ids.slug} className="list">
                             <Link to={'/' + username + '/lists/' + list.ids.slug}><h1>{list.name}</h1></Link>
                             <div className="list-description">{list.description}</div>
-                            <div className="list-items">
-                                {list.items && list.items.length > 0 ?
-                                    list.items.map((item, i) => {
-                                        let imdb = item[item.type].ids.imdb;
-                                        let title = item[item.type].title;
+                            <div className="list-row">
+                                <div className="list-items">
+                                    {list.items && list.items.length > 0 ?
+                                        list.items.map((item, i) => {
+                                            let imdb = item[item.type].ids.imdb;
+                                            let title = item[item.type].title;
 
-                                        return (
-                                            <Item key={i} i={i} posters={list.posters} imdb={imdb} title={title} />
-                                        );
-                                    })
-                                : null}
+                                            return (
+                                                <Item key={i} i={i} posters={list.posters} imdb={imdb} title={title} />
+                                            );
+                                        })
+                                    :
+                                        <div className="list-empty">This list is empty.</div>
+                                    }
+                                </div>
                                 {list.items && list.items.length > 0 ?
                                     <div className="view-more-btn-container">
-                                        <Link to={'/' + username + '/lists/' + list.ids.slug}><button className="btn">View List</button></Link>
+                                        <Link to={'/' + username + '/lists/' + list.ids.slug}><button className="btn">VIEW LIST</button></Link>
                                     </div>
                                 : null}
                             </div>
