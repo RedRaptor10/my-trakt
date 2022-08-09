@@ -252,28 +252,45 @@ header .search-box {
 /* Profile */
 .profile {
     background: rgb(8, 8, 8);
+    display: flex;
     padding: 64px 128px;
 }
 
-.profile div {
-    margin-bottom: 16px;
-    font-size: 24px;
+.profile-info {
+    width: 25%;
 }
 
-.profile label {
+.profile-info div {
+    margin-bottom: 8px;
+    font-size: 20px;
+}
+
+.profile-info label {
     font-weight: bold;
 }
 
-.profile div:not(:last-child) label {
+.profile-info div:not(:last-child) label {
     margin-right: 8px;
 }
 
-.profile div:nth-last-child(2) div {
-    margin-top: 16px;
+.profile-info div:nth-last-child(2) div {
+    margin-top: 8px;
 }
 
-.profile button {
+.profile-info button {
     margin-top: 32px;
+}
+
+.favorites {
+    margin-left: 16px;
+}
+
+.favorites .list-items {
+    width: calc((150px + 32px) * 5);
+}
+
+.favorites .item {
+    width: 150px;
 }
 
 /* Pagination */
@@ -406,14 +423,6 @@ header .search-box {
     padding: 64px 128px;
 }
 
-.list {
-    padding: 16px 0;
-}
-
-.list h1 {
-    line-height: 16px;
-}
-
 .list-description {
     margin: 16px 0;
     overflow: hidden;
@@ -421,9 +430,20 @@ header .search-box {
     white-space: nowrap;
 }
 
+.list-row {
+    display: flex;
+}
+
 .list-items {
     display: flex;
+    width: calc((200px + 32px) * 5);
     gap: 32px;
+}
+
+.list-empty {
+    margin: 16px 0;
+    font-size: 20px;
+    font-style: italic;
 }
 
 .view-more-btn-container {
