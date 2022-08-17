@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import Item from './Item';
 
-const Profile = ({user, favorites}) => {
+const Profile = ({user, stats, favorites}) => {
     const parseISOString = s => {
         const d = new Date(s);
         const day = d.getDate();
@@ -16,20 +16,40 @@ const Profile = ({user, favorites}) => {
 
     return (
         <div className="profile">
-            <div className="profile-info">
-                <h2>INFORMATION</h2>
-                <div><label>Name:</label>{user.name ? user.name : 'N/A'}</div>
-                <div><label>Age:</label>{user.age ? user.age : 'N/A'}</div>
-                <div><label>Gender:</label>{user.gender ? capitalize(user.gender) : 'N/A'}</div>
-                <div><label>Joined:</label>{parseISOString(user.joined_at)}</div>
-                <div><label>Location:</label>{user.location ? user.location : 'N/A'}</div>
-                <div><label>About:</label>
-                    <div>{user.about ? user.about : null}</div>
-                </div>
+            <section className="profile-sidebar">
+                <section className="profile-info">
+                    <h2>INFORMATION</h2>
+                    <div><label>Name:</label>{user.name ? user.name : 'N/A'}</div>
+                    <div><label>Age:</label>{user.age ? user.age : 'N/A'}</div>
+                    <div><label>Gender:</label>{user.gender ? capitalize(user.gender) : 'N/A'}</div>
+                    <div><label>Joined:</label>{parseISOString(user.joined_at)}</div>
+                    <div><label>Location:</label>{user.location ? user.location : 'N/A'}</div>
+                    <div><label>About:</label>
+                        <div className="about">{user.about ? user.about : null}</div>
+                    </div>
+                </section>
+                <section className="profile-network">
+                    <h2>NETWORK</h2>
+                    <div><label>Friends:</label>{stats.network.friends}</div>
+                    <div><label>Following:</label>{stats.network.following}</div>
+                    <div><label>Followers:</label>{stats.network.followers}</div>
+                </section>
+                <section className="profile-movies">
+                    <h2>MOVIES</h2>
+                    <div><label>Collected:</label>{stats.movies.collected}</div>
+                    <div><label>Watched:</label>{stats.movies.watched}</div>
+                    <div><label>Ratings:</label>{stats.movies.ratings}</div>
+                </section>
+                <section className="profile-shows">
+                    <h2>SHOWS</h2>
+                    <div><label>Collected:</label>{stats.shows.collected}</div>
+                    <div><label>Watched:</label>{stats.shows.watched}</div>
+                    <div><label>Ratings:</label>{stats.shows.ratings}</div>
+                </section>
                 <a href={'https://trakt.tv/users/' + user.ids.slug} target="_blank" rel="noreferrer"><button className="btn">VIEW TRAKT PROFILE</button></a>
-            </div>
+            </section>
             {favorites ?
-                <div className="favorites">
+                <section className="favorites">
                     {Object.keys(favorites).map(type => {
                         return (
                             <div key={type} className="list">
@@ -58,7 +78,7 @@ const Profile = ({user, favorites}) => {
                             </div>
                         );
                     })}
-                </div>
+                </section>
             : null}
         </div>
     );
