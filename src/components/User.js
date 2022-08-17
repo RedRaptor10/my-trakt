@@ -70,6 +70,7 @@ const User = ({loading, setLoading, fetchData, fetchPosters}) => {
             } else {
                 setUser();
                 setFoundUser(false);
+                setLoading();
             }
 
             // Reset data
