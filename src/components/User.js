@@ -10,6 +10,7 @@ const User = ({loading, setLoading, fetchData, fetchPosters}) => {
     const { username, type, listId } = useParams();
     const [searchParams] = useSearchParams();
     const [user, setUser] = useState();
+    const [stats, setStats] = useState();
     const [favorites, setFavorites] = useState();
     const [collection, setCollection] = useState();
     const [lists, setLists] = useState();
@@ -78,6 +79,7 @@ const User = ({loading, setLoading, fetchData, fetchPosters}) => {
             }
 
             // Reset data
+            setStats();
             setFavorites();
             setCollection();
             setLists();
@@ -87,6 +89,21 @@ const User = ({loading, setLoading, fetchData, fetchPosters}) => {
 
         fetchUser();
     }, [setLoading, username, fetchData, setUser, resetData]);
+
+    // Fetch Stats
+    useEffect(() => {
+        if (user && !user.private && !type && !stats) {
+            resetData();
+
+            const fetchStats = async () => {
+                const s = await fetchData(username, 'stats');
+
+                setStats(s);
+            }
+
+            fetchStats();
+        }
+    }, [user, type, stats, username, resetData, fetchData, setStats]);
 
     // Fetch Favorites
     useEffect(() => {
@@ -214,7 +231,7 @@ const User = ({loading, setLoading, fetchData, fetchPosters}) => {
                         user.private ? <div className="no-results">This user's profile is private.</div>
                         :
                         !type && favorites ?
-                            <Profile user={user} favorites={favorites} />
+                            <Profile user={user} stats={stats} favorites={favorites} />
                         :
                         (type === 'movies' || type === 'shows' || (type === 'lists' && listId)) && items ?
                             <Items collection={collection} list={list} type={type} page={page} setPage={setPage} items={items} results={results}

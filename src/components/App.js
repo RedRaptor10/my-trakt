@@ -24,6 +24,8 @@ const App = () => {
         let protocol = '';
         if (resource === 'profile') {
             protocol = '/users/' + userId + '?extended=full';
+        } else if (resource === 'stats') {
+            protocol = '/users/' + userId + '/stats';
         } else if (resource === 'collection' && type) {
             protocol = '/users/' + userId + '/collection/' + type;
         } else if (resource === 'lists') {
