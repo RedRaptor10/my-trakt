@@ -67,6 +67,10 @@ const User = ({loading, setLoading, fetchData, fetchPosters}) => {
             if (data) {
                 setUser(data);
                 setFoundUser(true);
+
+                if (data.private) {
+                    setLoading();
+                }
             } else {
                 setUser();
                 setFoundUser(false);
@@ -86,7 +90,7 @@ const User = ({loading, setLoading, fetchData, fetchPosters}) => {
 
     // Fetch Favorites
     useEffect(() => {
-        if (user && !type && !favorites) {
+        if (user && !user.private && !type && !favorites) {
             resetData();
 
             const fetchFavorites = async () => {
@@ -114,7 +118,7 @@ const User = ({loading, setLoading, fetchData, fetchPosters}) => {
 
     // Fetch Collection
     useEffect(() => {
-        if (type === 'movies' || type === 'shows') {
+        if (user && !user.private && (type === 'movies' || type === 'shows')) {
             if (!collection || (type === 'movies' && !collection.hasOwnProperty('movies')) || (type === 'shows' && !collection.hasOwnProperty('shows'))) {
                 resetData();
 
@@ -143,11 +147,11 @@ const User = ({loading, setLoading, fetchData, fetchPosters}) => {
                 .then(setLoading);
             }
         }
-    }, [setLoading, username, collection, setCollection, results, type, page, resetData, fetchData, fetchPostersData]);
+    }, [setLoading, user, username, collection, setCollection, results, type, page, resetData, fetchData, fetchPostersData]);
 
     // Fetch List
     useEffect(() => {
-        if (type === 'lists' && listId) {
+        if (user && !user.private && (type === 'lists' && listId)) {
             if (!list || list.ids.slug !== listId) {
                 resetData();
 
@@ -177,11 +181,11 @@ const User = ({loading, setLoading, fetchData, fetchPosters}) => {
                 .then(setLoading);
             }
         }
-    }, [setLoading, username, list, setList, listId, results, type, page, resetData, fetchData, fetchPostersData]);
+    }, [setLoading, user, username, list, setList, listId, results, type, page, resetData, fetchData, fetchPostersData]);
 
     // Fetch Lists
     useEffect(() => {
-        if (type === 'lists' && !lists && !listId) {
+        if (user && !user.private && (type === 'lists' && !lists && !listId)) {
             const fetchLists = async () => {
                 const l = await fetchData(username, 'lists');
                 setLists(l);
@@ -190,7 +194,7 @@ const User = ({loading, setLoading, fetchData, fetchPosters}) => {
             fetchLists()
             .then(setLoading);
         }
-    }, [setLoading, username, lists, setLists, listId, type, fetchData]);
+    }, [setLoading, user, username, lists, setLists, listId, type, fetchData]);
 
     return (
         <main className="user">
@@ -207,6 +211,8 @@ const User = ({loading, setLoading, fetchData, fetchPosters}) => {
                             <div className="loading-spinner"></div>
                         </div>
                     :
+                        user.private ? <div className="no-results">This user's profile is private.</div>
+                        :
                         !type && favorites ?
                             <Profile user={user} favorites={favorites} />
                         :
@@ -214,7 +220,8 @@ const User = ({loading, setLoading, fetchData, fetchPosters}) => {
                             <Items collection={collection} list={list} type={type} page={page} setPage={setPage} items={items} results={results}
                                 setResults={setResults} limit={limit} setLimit={setLimit} limitDefault={limitDefault} setLimitFromParams={setLimitFromParams}
                                 view={view} setView={setView} posters={posters} />
-                        : type === 'lists' && lists && !listId ?
+                        :
+                        type === 'lists' && lists && !listId ?
                             <Lists setLoading={setLoading} lists={lists} listItems={listItems} setListItems={setListItems} fetchData={fetchData} fetchPosters={fetchPosters} />
                         : null}
                 </div>
