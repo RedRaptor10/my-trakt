@@ -476,6 +476,14 @@ header .search-box {
         height: 48px;
     }
 
+    header .search-box {
+        margin: 16px auto;
+    }
+
+    .search-input {
+        font-size: 16px;
+    }
+
     .header-nav-container {
         position: unset;
         width: unset;
@@ -500,6 +508,30 @@ header .search-box {
         width: 75%;
     }
 
+    /* User Header */
+    .user-header {
+        padding: 16px 32px 0 32px;
+    }
+
+    .user-header .avatar {
+        height: 64px;
+        width: 64px;
+    }
+
+    .user-header-top span {
+        font-size: 24px;
+        margin-left: 16px;
+    }
+
+    .user-header nav {
+        font-size: 16px;
+        padding-top: 0;
+    }
+
+    .user-header nav div {
+        padding: 16px;
+    }
+
     /* Pagination */
     .pagination-btns {
         flex-wrap: wrap;
@@ -515,6 +547,10 @@ header .search-box {
     .items-grid {
         grid-gap: 24px;
         grid-template-columns: 100px 100px 100px;
+    }
+
+    .items h1 {
+        margin: 0 16px;
     }
 
     .item {
