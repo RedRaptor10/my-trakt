@@ -16,6 +16,7 @@ const User = ({loading, setLoading, fetchData, fetchPosters}) => {
     const [collection, setCollection] = useState();
     const [lists, setLists] = useState();
     const [list, setList] = useState();
+    const [recommendations, setRecommendations] = useState();
     const [items, setItems] = useState();
     const [listItems, setListItems] = useState();
     const [posters, setPosters] = useState();
@@ -136,7 +137,7 @@ const User = ({loading, setLoading, fetchData, fetchPosters}) => {
 
     // Fetch Collection
     useEffect(() => {
-        if (user && !user.private && category === 'collection' && (type === 'movies' || type === 'shows')) {
+        if (user && !user.private && category === 'collection') {
             if (!collection || (type === 'movies' && !collection.hasOwnProperty('movies')) || (type === 'shows' && !collection.hasOwnProperty('shows'))) {
                 resetData();
 
@@ -214,6 +215,39 @@ const User = ({loading, setLoading, fetchData, fetchPosters}) => {
         }
     }, [setLoading, user, username, category, lists, setLists, listId, fetchData]);
 
+    // Fetch Recommendations
+    useEffect(() => {
+        if (user && !user.private && category === 'recommendations') {
+            if (!recommendations || (type === 'movies' && !recommendations.hasOwnProperty('movies')) || (type === 'shows' && !recommendations.hasOwnProperty('shows'))) {
+                resetData();
+
+                const fetchRecommendations = async () => {
+                    let r = await fetchData(username, 'recommendations', type);
+
+                    setRecommendations({
+                        ...recommendations,
+                        [type]: r
+                    });
+
+                    // Sort results by title
+                    sortResults(r, category, type);
+                    setResults(r);
+                };
+
+                fetchRecommendations();
+            } else if (!results) {
+                resetData();
+
+                let r = recommendations[type].slice(); // Copy list array to prevent modification after sort
+                sortResults(r, category, type);
+                setResults(r);
+            } else {
+                fetchPostersData(results)
+                .then(setLoading);
+            }
+        }
+    }, [setLoading, user, username, category, type, recommendations, setRecommendations, results, page, resetData, fetchData, fetchPostersData]);
+
     return (
         <main className="user">
             {(!user || user.ids.slug !== username) && loading ?
@@ -234,7 +268,7 @@ const User = ({loading, setLoading, fetchData, fetchPosters}) => {
                         !category && favorites ?
                             <Profile user={user} stats={stats} favorites={favorites} />
                         :
-                        (category === 'collection' || (category === 'lists' && listId)) && items ?
+                        (category === 'collection' || (category === 'lists' && listId) || category === 'recommendations') && items ?
                             <Items category={category} type={type} collection={collection} list={list} page={page} setPage={setPage} items={items} results={results}
                                 setResults={setResults} limit={limit} setLimit={setLimit} limitDefault={limitDefault} setLimitFromParams={setLimitFromParams}
                                 view={view} setView={setView} posters={posters} />

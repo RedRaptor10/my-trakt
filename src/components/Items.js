@@ -36,9 +36,11 @@ const Items = ({category, type, collection, list, page, setPage, items, results,
                         </div>
                 </div>
                 <h1>
-                    {type === 'movies' ? 'Movies'
-                    : type === 'shows' ? 'Shows'
+                    { category === 'collection' && type === 'movies' ? 'Movies'
+                    : category === 'collection' && type === 'shows' ? 'Shows'
                     : category === 'lists' ? 'List - ' + list.name
+                    : category === 'recommendations' && type === 'movies' ? 'Recommended Movies'
+                    : category === 'recommendations' && type === 'shows' ? 'Recommended Shows'
                     : null}
                 </h1>
                 <div className={view === 'grid' ? 'items-grid' : 'items-list'}>
