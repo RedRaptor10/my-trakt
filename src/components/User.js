@@ -24,7 +24,7 @@ const User = ({loading, setLoading, fetchData, fetchPosters}) => {
     const [page, setPage] = useState(1);
     const [view, setView] = useState(searchParams.has('view') ? searchParams.get('view') : 'grid');
     const [foundUser, setFoundUser] = useState();
-    const limitDefault = 25;
+    const limitDefault = 35;
 
     const setLimitFromParams = () => {
         // Only set limit if view is list
