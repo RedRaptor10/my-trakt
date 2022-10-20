@@ -72,7 +72,7 @@ const App = () => {
 
             // Multiple asynchronous fetches require pushing all Promises into an array
             promises.push(new Promise((resolve, reject) => {
-                fetch(tmdb_url + methodUrl + '/images?api_key=' + api_key + '&include_image_language=en,null')
+                fetch(tmdb_url + methodUrl + '/images?api_key=' + api_key + '&language=en-US&append_to_response=images&include_image_language=en,null')
                 .then(function(res, error) {
                     if (error) { reject(error) }
                     return res.json();
