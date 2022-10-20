@@ -1,4 +1,4 @@
-const sortResults = (results, type) => {
+const sortResults = (results, category, type) => {
     results.sort((a, b) => {
         let titleA, titleB;
 
@@ -10,7 +10,7 @@ const sortResults = (results, type) => {
             titleA = a.show.title.toLowerCase();
             titleB = b.show.title.toLowerCase();
         }
-        else if (type === 'lists') {
+        else if (category === 'lists') {
             titleA = a[a.type].title.toLowerCase();
             titleB = b[b.type].title.toLowerCase();
         }

@@ -1,7 +1,7 @@
 import { sortResults } from '../helpers/sort';
 import searchIcon from '../assets/search-icon.svg';
 
-const Search = ({input, setInput, collection, list, setResults, type, setPage}) => {
+const Search = ({input, setInput, category, type, collection, list, setResults, setPage}) => {
     const handleChange = event => {
         setInput(event.target.value);
     };
@@ -11,7 +11,7 @@ const Search = ({input, setInput, collection, list, setResults, type, setPage}) 
         if (event.keyCode === 13) {
             event.preventDefault();
 
-            const items = type === 'lists' ? list.items : collection[type];
+            const items = category === 'lists' ? list.items : collection[type];
 
             let searchResults = items.filter(item => {
                 const query = event.target.value.toLowerCase();
@@ -23,7 +23,7 @@ const Search = ({input, setInput, collection, list, setResults, type, setPage}) 
                 else if (type === 'shows') {
                     title = item.show.title.toLowerCase();
                 }
-                else if (type === 'lists') {
+                else if (category === 'lists') {
                     title = item[item.type].title.toLowerCase();
                 }
 
@@ -31,7 +31,7 @@ const Search = ({input, setInput, collection, list, setResults, type, setPage}) 
             });
 
             // Sort results by title
-            sortResults(searchResults, type);
+            sortResults(searchResults, category, type);
             setResults(searchResults);
             setPage(1);
         }

@@ -3,7 +3,7 @@ import Search from './Search';
 import Pagination from './Pagination';
 import Item from './Item';
 
-const Items = ({collection, list, type, page, setPage, items, results, posters, setResults, limit, setLimit, limitDefault, setLimitFromParams, view, setView}) => {
+const Items = ({category, type, collection, list, page, setPage, items, results, posters, setResults, limit, setLimit, limitDefault, setLimitFromParams, view, setView}) => {
     const [input, setInput] = useState('');
     const totalPages = results.length > 0 ? Math.ceil(results.length / limit) : 1;
 
@@ -21,14 +21,14 @@ const Items = ({collection, list, type, page, setPage, items, results, posters, 
         <main className="items">
             {items ?
             <div>
-                <Search input={input} setInput={setInput} collection={collection} list={list} setResults={setResults} type={type} setPage={setPage} />
-                <Pagination results={results} type={type} page={page} setPage={setPage} limit={limit} view={view} changeView={changeView} />
+                <Search input={input} setInput={setInput} category={category} type={type} collection={collection} list={list} setResults={setResults} setPage={setPage} />
+                <Pagination results={results} page={page} setPage={setPage} limit={limit} />
                 <div className="pagination-info">
                         <div>
 							Page {page} / {totalPages}, Total: {results.length} {
 								type === 'movies' ? 'Movies' :
 								type === 'shows' ? 'Shows' :
-								type === 'lists' ? 'Items' :
+								category === 'lists' ? 'Items' :
 								null}, View:&nbsp;
 							<span className={'view-type-btn' + (view === 'grid' ? ' view-type-btn-active' : '')} onClick={() => changeView('grid') }>Grid</span>
 							&nbsp;|&nbsp;
@@ -38,7 +38,7 @@ const Items = ({collection, list, type, page, setPage, items, results, posters, 
                 <h1>
                     {type === 'movies' ? 'Movies'
                     : type === 'shows' ? 'Shows'
-                    : type === 'lists' ? 'List - ' + list.name
+                    : category === 'lists' ? 'List - ' + list.name
                     : null}
                 </h1>
                 <div className={view === 'grid' ? 'items-grid' : 'items-list'}>
@@ -54,7 +54,7 @@ const Items = ({collection, list, type, page, setPage, items, results, posters, 
                                 imdb = item.show.ids.imdb;
                                 title = item.show.title;
                                 year = item.show.year;
-                            } else if (type === 'lists') {
+                            } else if (category === 'lists') {
                                 imdb = item[item.type].ids.imdb;
                                 title = item[item.type].title;
                                 year = item[item.type].year;
@@ -73,7 +73,7 @@ const Items = ({collection, list, type, page, setPage, items, results, posters, 
                         <div className="no-results">No Results</div>
                     : null}
                 </div>
-                <Pagination results={results} type={type} page={page} setPage={setPage} limit={limit} view={view} changeView={changeView} />
+                <Pagination results={results} page={page} setPage={setPage} limit={limit} />
             </div>
             : null}
         </main>

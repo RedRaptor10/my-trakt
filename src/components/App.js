@@ -56,7 +56,7 @@ const App = () => {
         }
     }, [setLoading])
 
-    const fetchPosters = useCallback(async (r, t) => {
+    const fetchPosters = useCallback(async (r, c, t) => {
         setLoading(true);
 
         let promises = [];
@@ -65,7 +65,7 @@ const App = () => {
             let methodUrl;
             if (t === 'movies') { methodUrl = '/movie/' + result.movie.ids.tmdb }
             else if (t === 'shows') { methodUrl = '/tv/' + result.show.ids.tmdb }
-            else if (t === 'lists') {
+            else if (c === 'lists') {
                 if (result.type === 'movie') { methodUrl = '/movie/' + result.movie.ids.tmdb }
                 else if (result.type === 'show') { methodUrl = '/tv/' + result.show.ids.tmdb }
             }
@@ -112,8 +112,8 @@ const App = () => {
             <Routes>
                 <Route exact path="/" element={<Home />} />
                 <Route exact path="/:username" element={<User loading={loading} setLoading={setLoading} fetchData={fetchData} fetchPosters={fetchPosters} />} />
-                <Route exact path="/:username/:type" element={<User loading={loading} setLoading={setLoading} fetchData={fetchData} fetchPosters={fetchPosters} />} />
-                <Route path="/:username/:type/:listId" element={<User loading={loading} setLoading={setLoading} fetchData={fetchData} fetchPosters={fetchPosters} />} />
+                <Route exact path="/:username/:category" element={<User loading={loading} setLoading={setLoading} fetchData={fetchData} fetchPosters={fetchPosters} />} />
+                <Route path="/:username/:category/:type" element={<User loading={loading} setLoading={setLoading} fetchData={fetchData} fetchPosters={fetchPosters} />} />
             </Routes>
             <Footer />
         </HashRouter>

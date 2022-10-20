@@ -1,4 +1,4 @@
-const Pagination = ({ results, type, page, setPage, limit, view, changeView }) => {
+const Pagination = ({ results, page, setPage, limit }) => {
     const totalPages = results.length > 0 ? Math.ceil(results.length / limit) : 1;
     let pages = [];
 

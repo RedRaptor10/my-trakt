@@ -7,7 +7,8 @@ import Lists from './Lists';
 import { sortResults } from '../helpers/sort';
 
 const User = ({loading, setLoading, fetchData, fetchPosters}) => {
-    const { username, type, listId } = useParams();
+    const { username, category, type } = useParams();
+    const listId = category === 'lists' ? type : null;
     const [searchParams] = useSearchParams();
     const [user, setUser] = useState();
     const [stats, setStats] = useState();
@@ -55,10 +56,10 @@ const User = ({loading, setLoading, fetchData, fetchPosters}) => {
         setItems(i);
 
         if (view === 'grid' && i.length > 0) {
-            const p = await fetchPosters(i, type);
+            const p = await fetchPosters(i, category, type);
             setPosters(p);
         }
-    }, [limit, page, view, type, fetchPosters]);
+    }, [limit, page, view, category, type, fetchPosters]);
 
     // Fetch User
     useEffect(() => {
@@ -92,7 +93,7 @@ const User = ({loading, setLoading, fetchData, fetchPosters}) => {
 
     // Fetch Stats
     useEffect(() => {
-        if (user && !user.private && !type && !stats) {
+        if (user && !user.private && !category && !stats) {
             resetData();
 
             const fetchStats = async () => {
@@ -103,18 +104,18 @@ const User = ({loading, setLoading, fetchData, fetchPosters}) => {
 
             fetchStats();
         }
-    }, [user, type, stats, username, resetData, fetchData, setStats]);
+    }, [user, category, stats, username, resetData, fetchData, setStats]);
 
     // Fetch Favorites
     useEffect(() => {
-        if (user && !user.private && !type && !favorites) {
+        if (user && !user.private && !category && !favorites) {
             resetData();
 
             const fetchFavorites = async () => {
                 const favMovies = await fetchData(username, 'recommendations', 'movies', null, 5);
                 const favShows = await fetchData(username, 'recommendations', 'shows', null, 5);
-                const pMovies = await fetchPosters(favMovies.slice(0, 5), 'movies');
-                const pShows = await fetchPosters(favShows.slice(0, 5), 'shows');
+                const pMovies = await fetchPosters(favMovies.slice(0, 5), category, 'movies');
+                const pShows = await fetchPosters(favShows.slice(0, 5), category, 'shows');
 
                 setFavorites({
                     movies: {
@@ -131,11 +132,11 @@ const User = ({loading, setLoading, fetchData, fetchPosters}) => {
             fetchFavorites()
             .then(setLoading);
         }
-    }, [setLoading, user, type, favorites, setFavorites, username, limit, resetData, fetchData, fetchPosters]);
+    }, [setLoading, user, category, favorites, setFavorites, username, limit, resetData, fetchData, fetchPosters]);
 
     // Fetch Collection
     useEffect(() => {
-        if (user && !user.private && (type === 'movies' || type === 'shows')) {
+        if (user && !user.private && category === 'collection' && (type === 'movies' || type === 'shows')) {
             if (!collection || (type === 'movies' && !collection.hasOwnProperty('movies')) || (type === 'shows' && !collection.hasOwnProperty('shows'))) {
                 resetData();
 
@@ -148,7 +149,7 @@ const User = ({loading, setLoading, fetchData, fetchPosters}) => {
                     });
 
                     // Sort results by title
-                    sortResults(c, type);
+                    sortResults(c, category, type);
                     setResults(c);
                 };
 
@@ -157,18 +158,18 @@ const User = ({loading, setLoading, fetchData, fetchPosters}) => {
                 resetData();
 
                 let r = collection[type].slice(); // Copy list array to prevent modification after sort
-                sortResults(r, type);
+                sortResults(r, category, type);
                 setResults(r);
             } else {
                 fetchPostersData(results)
                 .then(setLoading);
             }
         }
-    }, [setLoading, user, username, collection, setCollection, results, type, page, resetData, fetchData, fetchPostersData]);
+    }, [setLoading, user, username, category, type, collection, setCollection, results, page, resetData, fetchData, fetchPostersData]);
 
     // Fetch List
     useEffect(() => {
-        if (user && !user.private && (type === 'lists' && listId)) {
+        if (user && !user.private && (category === 'lists' && listId)) {
             if (!list || list.ids.slug !== listId) {
                 resetData();
 
@@ -182,7 +183,7 @@ const User = ({loading, setLoading, fetchData, fetchPosters}) => {
                     });
             
                     // Sort results by title
-                    sortResults(li, type);
+                    sortResults(li, category);
                     setResults(li);
                 };
             
@@ -191,18 +192,18 @@ const User = ({loading, setLoading, fetchData, fetchPosters}) => {
                 resetData();
 
                 let r = list.items.slice();
-                sortResults(r, type);
+                sortResults(r, category);
                 setResults(r);
             } else {
                 fetchPostersData(results)
                 .then(setLoading);
             }
         }
-    }, [setLoading, user, username, list, setList, listId, results, type, page, resetData, fetchData, fetchPostersData]);
+    }, [setLoading, user, username, category, type, list, setList, listId, results, page, resetData, fetchData, fetchPostersData]);
 
     // Fetch Lists
     useEffect(() => {
-        if (user && !user.private && (type === 'lists' && !lists && !listId)) {
+        if (user && !user.private && category === 'lists' && !lists && !listId) {
             const fetchLists = async () => {
                 const l = await fetchData(username, 'lists');
                 setLists(l);
@@ -211,7 +212,7 @@ const User = ({loading, setLoading, fetchData, fetchPosters}) => {
             fetchLists()
             .then(setLoading);
         }
-    }, [setLoading, user, username, lists, setLists, listId, type, fetchData]);
+    }, [setLoading, user, username, category, lists, setLists, listId, fetchData]);
 
     return (
         <main className="user">
@@ -230,15 +231,15 @@ const User = ({loading, setLoading, fetchData, fetchPosters}) => {
                     :
                         user.private ? <div className="no-results">This user's profile is private.</div>
                         :
-                        !type && favorites ?
+                        !category && favorites ?
                             <Profile user={user} stats={stats} favorites={favorites} />
                         :
-                        (type === 'movies' || type === 'shows' || (type === 'lists' && listId)) && items ?
-                            <Items collection={collection} list={list} type={type} page={page} setPage={setPage} items={items} results={results}
+                        (category === 'collection' || (category === 'lists' && listId)) && items ?
+                            <Items category={category} type={type} collection={collection} list={list} page={page} setPage={setPage} items={items} results={results}
                                 setResults={setResults} limit={limit} setLimit={setLimit} limitDefault={limitDefault} setLimitFromParams={setLimitFromParams}
                                 view={view} setView={setView} posters={posters} />
                         :
-                        type === 'lists' && lists && !listId ?
+                        category === 'lists' && lists && !listId ?
                             <Lists setLoading={setLoading} lists={lists} listItems={listItems} setListItems={setListItems} fetchData={fetchData} fetchPosters={fetchPosters} />
                         : null}
                 </div>
