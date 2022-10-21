@@ -257,34 +257,44 @@ header .search-box {
 }
 
 .profile-sidebar {
+    background: rgb(16, 16, 16);
+    box-sizing: border-box;
+    padding: 0 32px 32px 32px;
     width: 25%;
+}
+
+.profile-sidebar h2 {
+    border-bottom: 1px solid rgb(64, 64, 64);
+    padding-bottom: 4px;
 }
 
 .profile-sidebar section {
     margin-bottom: 32px;
 }
 
-.profile-sidebar div:not(:last-child) {
-    padding-bottom: 8px;
-}
-
-.profile-sidebar div:not(.about) {
-    border-left: 1px solid rgb(64, 64, 64);
+.profile-sidebar div {
     font-size: 16px;
-    padding-left: 16px;
 }
 
-.profile-sidebar label {
-    font-weight: bold;
-    margin-right: 8px;
+.profile-sidebar div:not(:last-child) {
+    padding-bottom: 12px;
+}
+
+.profile-sidebar span {
+    float: right;
 }
 
 .profile-info div:last-child div {
     margin-top: 8px;
 }
 
+.profile-sidebar .btn {
+    display: block;
+    margin: 0 auto;
+}
+
 .favorites {
-    margin-left: 16px;
+    margin-left: 32px;
 }
 
 .favorites .list-items {

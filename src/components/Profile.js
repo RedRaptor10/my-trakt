@@ -19,32 +19,32 @@ const Profile = ({user, stats, favorites}) => {
             <section className="profile-sidebar">
                 <section className="profile-info">
                     <h2>INFORMATION</h2>
-                    <div><label>Name:</label>{user.name ? user.name : 'N/A'}</div>
-                    <div><label>Age:</label>{user.age ? user.age : 'N/A'}</div>
-                    <div><label>Gender:</label>{user.gender ? capitalize(user.gender) : 'N/A'}</div>
-                    <div><label>Joined:</label>{parseISOString(user.joined_at)}</div>
-                    <div><label>Location:</label>{user.location ? user.location : 'N/A'}</div>
+                    <div><label>Name:</label><span>{user.name ? user.name : 'N/A'}</span></div>
+                    <div><label>Age:</label><span>{user.age ? user.age : 'N/A'}</span></div>
+                    <div><label>Gender:</label><span>{user.gender ? capitalize(user.gender) : 'N/A'}</span></div>
+                    <div><label>Joined:</label><span>{parseISOString(user.joined_at)}</span></div>
+                    <div><label>Location:</label><span>{user.location ? user.location : 'N/A'}</span></div>
                     <div><label>About:</label>
                         <div className="about">{user.about ? user.about : null}</div>
                     </div>
                 </section>
                 <section className="profile-network">
                     <h2>NETWORK</h2>
-                    <div><label>Friends:</label>{stats.network.friends}</div>
-                    <div><label>Following:</label>{stats.network.following}</div>
-                    <div><label>Followers:</label>{stats.network.followers}</div>
+                    <div><label>Friends:</label><span>{stats.network.friends}</span></div>
+                    <div><label>Following:</label><span>{stats.network.following}</span></div>
+                    <div><label>Followers:</label><span>{stats.network.followers}</span></div>
                 </section>
                 <section className="profile-movies">
                     <h2>MOVIES</h2>
-                    <div><label>Collected:</label>{stats.movies.collected}</div>
-                    <div><label>Watched:</label>{stats.movies.watched}</div>
-                    <div><label>Ratings:</label>{stats.movies.ratings}</div>
+                    <div><label>Collected:</label><span>{stats.movies.collected}</span></div>
+                    <div><label>Watched:</label><span>{stats.movies.watched}</span></div>
+                    <div><label>Ratings:</label><span>{stats.movies.ratings}</span></div>
                 </section>
                 <section className="profile-shows">
                     <h2>SHOWS</h2>
-                    <div><label>Collected:</label>{stats.shows.collected}</div>
-                    <div><label>Watched:</label>{stats.shows.watched}</div>
-                    <div><label>Ratings:</label>{stats.shows.ratings}</div>
+                    <div><label>Collected:</label><span>{stats.shows.collected}</span></div>
+                    <div><label>Watched:</label><span>{stats.shows.watched}</span></div>
+                    <div><label>Ratings:</label><span>{stats.shows.ratings}</span></div>
                 </section>
                 <a href={'https://trakt.tv/users/' + user.ids.slug} target="_blank" rel="noreferrer"><button className="btn">VIEW TRAKT PROFILE</button></a>
             </section>
