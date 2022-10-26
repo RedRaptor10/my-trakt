@@ -265,7 +265,7 @@ const User = ({loading, setLoading, fetchData, fetchPosters}) => {
                     :
                         user.private ? <div className="no-results">This user's profile is private.</div>
                         :
-                        !category && favorites ?
+                        !category && stats && favorites ?
                             <Profile user={user} stats={stats} favorites={favorites} />
                         :
                         (category === 'collection' || (category === 'lists' && listId) || category === 'recommendations') && items ?
