@@ -467,6 +467,10 @@ header .search-box {
 
 /* Mobile */
 @media screen and (max-width: 1000px) {
+    .btn {
+        font-size: 16px;
+    }
+
     /* Header */
     header {
         display: block;
@@ -476,6 +480,7 @@ header .search-box {
     .header-title {
         display: flex;
         justify-content: center;
+        padding-top: 8px;
     }
 
     .header-title a {
@@ -513,6 +518,17 @@ header .search-box {
         text-align: center;
     }
 
+    /* Home */
+    .home {
+        padding: 32px 16px;
+    }
+
+    .home div {
+        font-size: 16px;
+        line-height: 24px;
+        margin: 16px 0;
+    }
+
     /* Search Box */
     .search-box {
         width: 75%;
@@ -520,7 +536,7 @@ header .search-box {
 
     /* User Header */
     .user-header {
-        padding: 16px 32px 0 32px;
+        padding: 16px;
     }
 
     .user-header .avatar {
@@ -542,6 +558,49 @@ header .search-box {
         padding: 16px;
     }
 
+    /* Profile */
+    .profile {
+        display: block;
+        padding: 0;
+    }
+
+    .profile-sidebar {
+        padding: 0 16px 16px 16px;
+        width: 100vw;
+    }
+
+    .profile-sidebar h2 {
+        font-size: 16px;
+    }
+
+    .profile-sidebar label, .profile-sidebar span {
+        font-size: 14px;
+    }
+
+    .profile-sidebar div:not(:last-child) {
+        padding-bottom: 8px;
+    }
+
+    .favorites {
+        margin: 0 16px;
+    }
+
+    .favorites h2 {
+        font-size: 16px;
+    }
+
+    .favorites .item {
+        width: 100px;
+    }
+
+    .list-row {
+        overflow-x: scroll;
+    }
+
+    .view-more-btn-container {
+        margin-left: 16px;
+    }
+
     /* Pagination */
     .pagination-btns {
         flex-wrap: wrap;
@@ -560,6 +619,7 @@ header .search-box {
     }
 
     .items h1 {
+        font-size: 20px;
         margin: 0 16px;
     }
 
@@ -579,5 +639,24 @@ header .search-box {
 
     .items-list a {
         padding: 16px 8px;
+    }
+
+    /* Lists */
+    .lists {
+        padding: 16px;
+    }
+
+    .lists h1 {
+        font-size: 20px;
+        line-height: 0;
+    }
+
+    .list-description {
+        font-size: 14px;
+        margin: 8px 0;
+    }
+
+    .list-items {
+        gap: 16px;
     }
 }
